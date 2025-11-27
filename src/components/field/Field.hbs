@@ -1,0 +1,14 @@
+<label class="form__field{{#if (eq fieldType "wide")}} form__field_type_wide{{/if}}">
+  <p class="form__label">{{label}}</p>
+  {{> Input 
+    type=inputType
+    name=name
+    id=id
+    placeholder=placeholder
+    required=required
+    minlength=minlength
+    maxlength=maxlength
+  }}
+
+  <span class="form__input-error"></span>
+</label>

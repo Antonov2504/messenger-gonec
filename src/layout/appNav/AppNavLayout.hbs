@@ -1,0 +1,18 @@
+<main>
+  {{{content}}}
+
+  <nav class="app-nav">
+    <ul class="app-nav__list">
+      {{#each links}}
+        <li class="app-nav__item">
+          {{> Link 
+            text=this.text
+            class="link app-nav__link"
+            data-page=this.to
+          }}
+        </li>
+      {{/each}}
+    </ul>
+  </nav>
+</main>
+

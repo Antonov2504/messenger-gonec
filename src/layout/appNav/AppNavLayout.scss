@@ -1,0 +1,13 @@
+.app-nav {
+  padding: 10px;
+  background-color: var(--bg-color);
+
+  &__list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    list-style: none;
+  }
+}

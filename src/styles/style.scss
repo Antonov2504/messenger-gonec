@@ -1,4 +1,34 @@
+:root {
+  --primary-color: #3369F3;
+  --hover-primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  --border-color: #eaeaea;
+  --text-color: #1e1e1e;
+  --placeholder-color: #999999;
+  --error-color: #ff2f2f;
+  --bg-color: #fbfbfb;
+}
+
+body {
+  height: 100vh;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  color: var(--text-color);
+  margin: 0 auto;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 * {
   box-sizing: border-box;
-  font-family: 'Inter', Arial, sans-serif;
 }
