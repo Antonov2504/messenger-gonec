@@ -1,6 +1,5 @@
-import { type PageKey, type PagePropsMap, pagesMap } from './constants';
-import LoginPage from './loginPage/LoginPage.hbs?raw';
+import { pagesMap } from './constants';
 
-export { LoginPage, type PageKey, type PagePropsMap };
+export type { PageKey, PagePropsMap } from './constants';
 
 export default pagesMap;

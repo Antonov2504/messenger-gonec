@@ -1,0 +1,15 @@
+<footer>
+  <nav class="app-footer">
+    <ul class="app-footer__list">
+      {{#each links}}
+        <li>
+          {{> Link 
+            text=this.text
+            class="link"
+            data-page=this.to
+          }}
+        </li>
+      {{/each}}
+    </ul>
+  </nav>
+</footer>

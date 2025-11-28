@@ -1,5 +1,7 @@
 import type { LinkProps } from './components/link';
+import type { ErrorLayoutProps } from './layout/error';
 import type { PageKey, PagePropsMap } from './pages';
+import type { PageErrorKey } from './pages/constants';
 
 const loginPageTemplateData: PagePropsMap['login'] = {
   title: 'Вход',
@@ -91,7 +93,18 @@ const registerPageTemplateData: PagePropsMap['signup'] = {
   },
 };
 
-export const appNavTemplateLinks: LinkProps[] = [
+const errorPageTemplateData: Record<PageErrorKey, ErrorLayoutProps> = {
+  notFound: {
+    code: '404',
+    description: 'Кто ищет, тот всегда найдет',
+  },
+  maintenance: {
+    code: '500',
+    description: 'Что-то пошло не так...',
+  },
+};
+
+export const appFooterTemplateLinks: LinkProps[] = [
   {
     text: 'Авторизация',
     to: 'login',
@@ -100,9 +113,19 @@ export const appNavTemplateLinks: LinkProps[] = [
     text: 'Регистрация',
     to: 'signup',
   },
+  {
+    text: '404',
+    to: 'notFound',
+  },
+  {
+    text: '500',
+    to: 'maintenance',
+  },
 ];
 
 export const templateData: Record<PageKey, PagePropsMap[PageKey]> = {
   login: loginPageTemplateData,
   signup: registerPageTemplateData,
+  notFound: errorPageTemplateData.notFound,
+  maintenance: errorPageTemplateData.maintenance,
 };

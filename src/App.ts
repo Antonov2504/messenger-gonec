@@ -1,13 +1,15 @@
 import Handlebars from 'handlebars';
 
-import { appNavTemplateLinks, templateData } from './App.constants';
+import { appFooterTemplateLinks, templateData } from './App.constants';
 import { Button } from './components/button';
 import { Field } from './components/field';
 import { Input } from './components/input';
 import { Link } from './components/link';
 import './helpers/handlebarsHelpers.js';
+import { AppFooter } from './layout/appFooter';
 import { AppNavLayout } from './layout/appNav';
 import { AuthLayout } from './layout/auth';
+import { ErrorLayout } from './layout/error';
 import { Form } from './modules/form';
 import Pages, { type PageKey } from './pages';
 
@@ -16,8 +18,10 @@ Handlebars.registerPartial('Button', Button);
 Handlebars.registerPartial('Link', Link);
 Handlebars.registerPartial('Field', Field);
 Handlebars.registerPartial('Form', Form);
+Handlebars.registerPartial('AppFooter', AppFooter);
 Handlebars.registerPartial('AuthLayout', AuthLayout);
 Handlebars.registerPartial('AppNavLayout', AppNavLayout);
+Handlebars.registerPartial('ErrorLayout', ErrorLayout);
 
 type AppState = {
   currentPage: PageKey;
@@ -70,7 +74,7 @@ export class App {
     const htmlWithNav = Handlebars.compile(
       '{{> AppNavLayout links=links content=content }}'
     )({
-      links: appNavTemplateLinks,
+      links: appFooterTemplateLinks,
       content: pageHtml,
     });
 
