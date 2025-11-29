@@ -1,3 +1,8 @@
-  <button id="{{id}}" type="{{type}}" class="button" onClick="{{onClick}}">
+  <button 
+    id="{{id}}" 
+    type="{{type}}" 
+    class="button{{#if (eq variant "primary-icon")}} button_variant_primary-icon{{else if (eq variant "secondary")}} button_variant_secondary{{/if}}{{#if (eq icon "back")}} button_icon_back{{/if}}{{#if (eq color "danger")}} button_color_danger{{/if}}" 
+    onClick="{{onClick}}"
+    >
     {{text}}
   </button>

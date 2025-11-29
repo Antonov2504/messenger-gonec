@@ -1,9 +1,10 @@
-<form action="#" class="form" id="{{id}}">
+<form id="{{id}}" action="#" class="form" autocomplete="off">
   <fieldset class="form__fieldset">
     {{#each fields}}
       {{> Field
           id=id
           name=name
+          value=value
           inputType=inputType
           fieldType=fieldType
           placeholder=placeholder

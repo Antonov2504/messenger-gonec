@@ -1,4 +1,6 @@
-{{> ErrorLayout 
-    code=code 
-    description=description 
-}}
+<article class="error-page">
+  <p class="error-page__code">{{code}}</p>
+  <p class="error-page__description">{{description}}</p>
+
+  {{> Link class="link" text="Назад к чатам" data-page="chats"}}
+</article>

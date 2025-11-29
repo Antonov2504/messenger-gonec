@@ -1,5 +1,5 @@
-import type { ButtonProps } from '../../components/button';
-import type { FieldProps } from '../../components/field';
+import type { ButtonProps } from '@components/button';
+import type { FieldProps } from '@components/field';
 
 export type FormProps = {
   id: string;

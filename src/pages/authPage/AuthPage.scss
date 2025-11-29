@@ -1,10 +1,4 @@
-.auth-layout {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &__content {
+  .auth-page {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -17,4 +11,3 @@
     border-radius: 12px;
     box-shadow: 0 0 6px 0 #00000024;
   }
-}

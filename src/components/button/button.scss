@@ -5,14 +5,51 @@
   border: 1px solid var(--primary-color);
   border-radius: 8px;
   cursor: pointer;
-  color: white;
+  color: var(--text-color-white);
   font-family: 'Inter';
   font-weight: 500;
   font-size: 16px;
   line-height: 1;
-  transition: background-color 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+  transition-property: background-color, color;
 
   &:hover {
     background-color: var(--hover-primary-color);
+  }
+
+  &_variant_secondary {
+    width: initial;
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    color: var(--primary-color);
+
+    &:hover {
+      background-color: transparent;
+      color: var(--hover-primary-color);
+    }
+  }
+
+  &_color_danger {
+    color: var(--error-color);
+
+    &:hover {
+      color: var(--hover-error-color);
+    }
+  }
+
+  &_variant_primary-icon {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: center / 16px no-repeat;
+    background-color: var(--primary-color);
+    border: 0;
+    border-radius: 50%;
+  }
+
+  &_icon_back {
+    transform: rotateZ(180deg);
+    background-image: url('@assets/images/icons/arrow.svg');
   }
 }

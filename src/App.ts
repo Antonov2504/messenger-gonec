@@ -1,27 +1,30 @@
+import { Button } from '@components/button';
+import { Field } from '@components/field';
+import { Image } from '@components/image';
+import { Input } from '@components/input';
+import { Link } from '@components/link';
+import '@helpers/handlebarsHelpers.ts';
+import { AppFooter } from '@layout/appFooter';
+import { PageLayout } from '@layout/page/index.js';
+import { Form } from '@modules/form';
+import { InfoField } from '@modules/infoField';
 import Handlebars from 'handlebars';
 
-import { appFooterTemplateLinks, templateData } from './App.constants';
-import { Button } from './components/button';
-import { Field } from './components/field';
-import { Input } from './components/input';
-import { Link } from './components/link';
-import './helpers/handlebarsHelpers.js';
-import { AppFooter } from './layout/appFooter';
-import { AppNavLayout } from './layout/appNav';
-import { AuthLayout } from './layout/auth';
-import { ErrorLayout } from './layout/error';
-import { Form } from './modules/form';
-import Pages, { type PageKey } from './pages';
+import { appFooterTemplateLinks, pagesMap } from './App.constants';
+import type { PageKey } from './App.types.js';
 
+// Регистрируем партиции компонентов
+Handlebars.registerPartial('Image', Image);
 Handlebars.registerPartial('Input', Input);
 Handlebars.registerPartial('Button', Button);
 Handlebars.registerPartial('Link', Link);
 Handlebars.registerPartial('Field', Field);
+Handlebars.registerPartial('InfoField', InfoField);
 Handlebars.registerPartial('Form', Form);
+
+// Регистрируем партиции layout
 Handlebars.registerPartial('AppFooter', AppFooter);
-Handlebars.registerPartial('AuthLayout', AuthLayout);
-Handlebars.registerPartial('AppNavLayout', AppNavLayout);
-Handlebars.registerPartial('ErrorLayout', ErrorLayout);
+Handlebars.registerPartial('PageLayout', PageLayout);
 
 type AppState = {
   currentPage: PageKey;
@@ -35,6 +38,7 @@ export class App {
     this.state = {
       currentPage: 'login',
     };
+
     const appElement = document.querySelector('#app') as HTMLElement;
 
     if (!appElement) {
@@ -42,7 +46,6 @@ export class App {
     }
 
     this.appElement = appElement;
-    this.initRouting();
   }
 
   htmlToNode(html: string): Node {
@@ -52,43 +55,36 @@ export class App {
     return template.content.cloneNode(true);
   }
 
-  initRouting() {
+  render() {
+    const { layout, template, sidebar, props } =
+      pagesMap[this.state.currentPage];
+
+    const sidebarHtml = sidebar ? Handlebars.compile(sidebar)(props) : '';
+    const pageHtml = Handlebars.compile(template)(props);
+
+    const html = Handlebars.compile(layout)({
+      content: pageHtml,
+      sidebar: sidebarHtml,
+      links: appFooterTemplateLinks,
+    });
+
+    this.appElement.replaceChildren(this.htmlToNode(html));
+
+    this.attachEventListeners();
+  }
+
+  attachEventListeners() {
     document.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
-      const page = target.getAttribute('data-page') as PageKey | null;
+      const page = target.dataset.page as PageKey | null;
 
-      if (target.tagName === 'A' && page && Pages[page]) {
+      if (target.tagName === 'A' && page && pagesMap[page]) {
         event.stopPropagation();
         event.preventDefault();
 
         this.navigate(page as PageKey);
       }
     });
-  }
-
-  render() {
-    const hbsTemplate = Pages[this.state.currentPage];
-    const hbsData = templateData[this.state.currentPage];
-    const pageHtml = Handlebars.compile(hbsTemplate)(hbsData);
-
-    const htmlWithNav = Handlebars.compile(
-      '{{> AppNavLayout links=links content=content }}'
-    )({
-      links: appFooterTemplateLinks,
-      content: pageHtml,
-    });
-
-    this.appElement.replaceChildren(this.htmlToNode(htmlWithNav));
-
-    this.attachEventListeners();
-  }
-
-  attachEventListeners() {
-    if (this.state.currentPage === 'login') {
-      const loginButton = document.getElementById('button-login');
-
-      loginButton?.addEventListener('click', () => console.log('auth'));
-    }
   }
 
   navigate(page: AppState['currentPage']) {

@@ -1,7 +1,19 @@
-import type { LinkProps } from './components/link';
-import type { ErrorLayoutProps } from './layout/error';
-import type { PageKey, PagePropsMap } from './pages';
-import type { PageErrorKey } from './pages/constants';
+import type { LinkProps } from '@components/link';
+import { PageLayout } from '@layout/page';
+import {
+  AuthPage,
+  ErrorPage,
+  type ErrorPageProps,
+  ProfilePage,
+} from '@pages/index';
+
+import type {
+  PageConfig,
+  PageErrorKey,
+  PageKey,
+  PagePropsMap,
+} from './App.types';
+import Avatar from './assets/images/avatar.jpg';
 
 const loginPageTemplateData: PagePropsMap['login'] = {
   title: 'Вход',
@@ -93,7 +105,24 @@ const registerPageTemplateData: PagePropsMap['signup'] = {
   },
 };
 
-const errorPageTemplateData: Record<PageErrorKey, ErrorLayoutProps> = {
+const profilePageTemplateData: PagePropsMap['profile'] = {
+  avatar: {
+    isEmpty: false,
+    src: Avatar,
+    alt: 'Личность профиля',
+    size: 'l',
+  },
+  info: {
+    email: 'username@yandex.ru',
+    login: 'username',
+    first_name: 'Александр',
+    second_name: 'Пушкин',
+    login_chat: 'pushkin',
+    phone: '+7 (090) 606 17 99',
+  },
+};
+
+const errorPageTemplateData: Record<PageErrorKey, ErrorPageProps> = {
   notFound: {
     code: '404',
     description: 'Кто ищет, тот всегда найдет',
@@ -114,6 +143,10 @@ export const appFooterTemplateLinks: LinkProps[] = [
     to: 'signup',
   },
   {
+    text: 'Профиль',
+    to: 'profile',
+  },
+  {
     text: '404',
     to: 'notFound',
   },
@@ -123,9 +156,31 @@ export const appFooterTemplateLinks: LinkProps[] = [
   },
 ];
 
-export const templateData: Record<PageKey, PagePropsMap[PageKey]> = {
-  login: loginPageTemplateData,
-  signup: registerPageTemplateData,
-  notFound: errorPageTemplateData.notFound,
-  maintenance: errorPageTemplateData.maintenance,
+export const pagesMap: { [K in PageKey]: PageConfig<PagePropsMap[K]> } = {
+  login: {
+    template: AuthPage,
+    layout: PageLayout,
+    props: loginPageTemplateData,
+  },
+  signup: {
+    template: AuthPage,
+    layout: PageLayout,
+    props: registerPageTemplateData,
+  },
+  notFound: {
+    template: ErrorPage,
+    layout: PageLayout,
+    props: errorPageTemplateData.notFound,
+  },
+  maintenance: {
+    template: ErrorPage,
+    layout: PageLayout,
+    props: errorPageTemplateData.maintenance,
+  },
+  profile: {
+    template: ProfilePage,
+    layout: PageLayout,
+    sidebar: 'true',
+    props: profilePageTemplateData,
+  },
 };

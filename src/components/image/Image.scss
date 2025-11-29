@@ -1,0 +1,10 @@
+.image {
+  width: 40px;
+  object-fit: contain;
+  position: relative;
+
+  &_size_l {
+    width: 130px;
+    height: 130px;
+  }
+}

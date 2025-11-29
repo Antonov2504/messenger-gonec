@@ -1,4 +1,4 @@
-import type { PageKey } from '../../pages';
+import type { PageKey } from '@/App.types';
 
 export type LinkProps = {
   text: string;

@@ -1,5 +1,15 @@
-{{> AuthLayout
-    title=title
-    form=form
-    link=link
-}}
+<section class="auth-page">
+  <h1>{{title}}</h1>
+
+  {{> Form 
+      id=form.id
+      fields=form.fields
+      button=form.button
+  }}
+
+  {{> Link 
+      text=link.text
+      class="link"
+      data-page=link.to
+  }}
+</section>

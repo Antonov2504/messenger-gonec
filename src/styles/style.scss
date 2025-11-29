@@ -1,12 +1,15 @@
 :root {
-  --primary-color: #3369F3;
+  --primary-color: #3369f3;
   --hover-primary-color: #3498db;
   --secondary-color: #2c3e50;
   --border-color: #eaeaea;
   --text-color: #1e1e1e;
+  --text-color-white: #ffffff;
   --placeholder-color: #999999;
   --error-color: #ff2f2f;
+  --hover-error-color: #ff6060;
   --bg-color: #fbfbfb;
+  --bg-color-100: #efefef;
 }
 
 body {
@@ -15,12 +18,6 @@ body {
   font-weight: 500;
   color: var(--text-color);
   margin: 0 auto;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
 }
 
 #app {
