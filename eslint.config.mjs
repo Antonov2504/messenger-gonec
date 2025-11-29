@@ -18,6 +18,9 @@ export default defineConfig(
     plugins: {
       '@typescript-eslint': typescriptEslint.plugin,
     },
+    rules: {
+      'eol-last': ['error', 'always'],
+    },
   },
   { ignores: ['node_modules', 'dist/'] },
   eslintPluginPrettierRecommended,
