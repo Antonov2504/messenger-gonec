@@ -6,14 +6,8 @@
   "arrowParens": "always",
   "quoteProps": "consistent",
   "endOfLine": "auto",
-  "plugins": [
-    "@trivago/prettier-plugin-sort-imports"
-  ],
-  "importOrder": [
-    "<THIRD_PARTY_MODULES>",
-    "^~/",
-    "^[./]"
-  ],
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": ["<THIRD_PARTY_MODULES>", "^~/", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
   "insertFinalNewline": true
