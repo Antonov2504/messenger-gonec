@@ -48,9 +48,9 @@ $ git clone https://github.com/Antonov2504/messenger-gonec.git
 Появятся позже с добавлением полноценного роутинга.
 Для навигации между страницами временно добавлен Footer со списком ссылок на страницы. Он расположен внизу страницы.
 
-- [Авторизация](https://messenger-gonec.netlify.app/login)
-- [Регистрация](https://messenger-gonec.netlify.app/signup)
-- [Чаты](https://messenger-gonec.netlify.app/chats)
-- [Профиль](https://messenger-gonec.netlify.app/profile)
-- [404](https://messenger-gonec.netlify.app/notFound)
-- [500](https://messenger-gonec.netlify.app/maintenance)
+- [Авторизация](https://messenger-gonec.netlify.app)
+- [Регистрация](https://messenger-gonec.netlify.app)
+- [Чаты](https://messenger-gonec.netlify.app)
+- [Профиль](https://messenger-gonec.netlify.app)
+- [404](https://messenger-gonec.netlify.app)
+- [500](https://messenger-gonec.netlify.app)
