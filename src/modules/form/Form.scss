@@ -51,6 +51,26 @@
         outline: none;
       }
     }
+
+    &_type_search {
+      position: relative;
+
+      .form__input {
+        padding: 10px 0 10px 32px;
+      }
+
+      .form__input-icon_search {
+        width: 16px;
+        height: 16px;
+        background-image: url('@assets/images/icons/search.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        pointer-events: none;
+      }
+    }
   }
 
   &__label {

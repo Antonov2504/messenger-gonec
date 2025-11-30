@@ -1,0 +1,14 @@
+<textarea
+  id="{{id}}"
+  name="{{name}}"
+  class="form__textarea autogrow"
+  placeholder="{{placeholder}}"
+  rows="{{rows}}"
+  style="--max-rows: {{maxRows}};"
+  maxlength="{{maxlength}}"
+  {{#if minlength}}minlength="{{minlength}}"{{/if}}
+  {{#if required}}required{{/if}}
+  {{#if readonly}}readonly{{/if}}
+  {{#if disabled}}disabled{{/if}}
+  {{#if ariaLabel}}aria-label="{{ariaLabel}}"{{/if}}
+>{{value}}</textarea>

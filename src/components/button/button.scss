@@ -4,7 +4,6 @@
   background-color: var(--primary-color);
   border: 1px solid var(--primary-color);
   border-radius: 8px;
-  cursor: pointer;
   color: var(--text-color-white);
   font-family: 'Inter';
   font-weight: 500;
@@ -12,6 +11,7 @@
   line-height: 1;
   transition: 0.3s ease-in-out;
   transition-property: background-color, color;
+  cursor: pointer;
 
   &:hover {
     background-color: var(--hover-primary-color);
@@ -30,14 +30,6 @@
     }
   }
 
-  &_color_danger {
-    color: var(--error-color);
-
-    &:hover {
-      color: var(--hover-error-color);
-    }
-  }
-
   &_variant_primary-icon {
     width: 28px;
     height: 28px;
@@ -48,8 +40,47 @@
     border-radius: 50%;
   }
 
+  &_variant_icon {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background: center / contain no-repeat;
+    background-color: transparent;
+    border: 0;
+    border-radius: initial;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &_size_m {
+    width: 32px;
+    height: 32px;
+  }
+
+  &_icon_arrow {
+    background-image: url('@assets/images/icons/arrow.svg');
+  }
+
   &_icon_back {
     transform: rotateZ(180deg);
     background-image: url('@assets/images/icons/arrow.svg');
+  }
+
+  &_icon_options {
+    background-image: url('@assets/images/icons/options.svg');
+  }
+
+  &_icon_clip {
+    background-image: url('@assets/images/icons/clip.svg');
+  }
+
+  &_color_danger {
+    color: var(--error-color);
+
+    &:hover {
+      color: var(--hover-error-color);
+    }
   }
 }

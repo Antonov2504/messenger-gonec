@@ -1,10 +1,13 @@
 <article class="profile-page">
-  <header class="profile-page__avatar">
-    <div class="profile-page__image-container{{#if avatar.isEmpty}} profile-page__image-container_empty{{/if}}">
-      {{> Image src=avatar.src alt=avatar.alt variant="round" size=avatar.size }}
-    </div>
-    <p class="profile-page__name">{{info.first_name}}</p>
-  </header>
+  {{> Avatar 
+      isEmpty=avatar.isEmpty
+      isEditable=avatar.isEditable
+      size=avatar.size
+      src=avatar.src
+      alt=avatar.alt
+      type=avatar.type
+      name=info.first_name
+  }}
 
   <ul class="profile-page__info">
     <li>{{> InfoField label="Почта" value=info.email }}</li>

@@ -1,5 +1,8 @@
-<label class="form__field{{#if (eq fieldType "wide")}} form__field_type_wide{{/if}}">
-  <p class="form__label">{{label}}</p>
+<label class="form__field{{#if (eq fieldType "wide")}} form__field_type_wide{{else if (eq fieldType "search")}} form__field_type_search{{/if}}">
+  {{#if label}}
+    <p class="form__label">{{label}}</p>
+  {{/if}}
+
   {{> Input 
     id=id
     type=inputType
@@ -12,4 +15,7 @@
   }}
 
   <span class="form__input-error"></span>
+  {{#if (eq fieldType "search")}}
+    <span class="form__input-icon form__input-icon_search"></span>
+  {{/if}}
 </label>

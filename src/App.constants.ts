@@ -2,6 +2,8 @@ import type { LinkProps } from '@components/link';
 import { PageLayout } from '@layout/page';
 import {
   AuthPage,
+  ChatsPageMain,
+  ChatsPageSidebar,
   ErrorPage,
   type ErrorPageProps,
   ProfilePage,
@@ -13,7 +15,9 @@ import type {
   PageKey,
   PagePropsMap,
 } from './App.types';
-import Avatar from './assets/images/avatar.jpg';
+import AvatarVladimir from './assets/images/avatar-1.jpg';
+import Avatar2 from './assets/images/avatar-2.jpg';
+import AvatarAlex from './assets/images/avatar.jpg';
 
 const loginPageTemplateData: PagePropsMap['login'] = {
   title: 'Вход',
@@ -108,17 +112,84 @@ const registerPageTemplateData: PagePropsMap['signup'] = {
 const profilePageTemplateData: PagePropsMap['profile'] = {
   avatar: {
     isEmpty: false,
-    src: Avatar,
+    isEditable: true,
+    src: AvatarAlex,
     alt: 'Личность профиля',
+    name: 'Александр',
+    type: 'column',
     size: 'l',
   },
   info: {
+    id: '1',
+    avatar: AvatarAlex,
     email: 'username@yandex.ru',
     login: 'username',
     first_name: 'Александр',
     second_name: 'Пушкин',
-    login_chat: 'pushkin',
+    display_name: 'pushkin',
     phone: '+7 (090) 606 17 99',
+  },
+};
+
+const chatsPageTemplateData: PagePropsMap['chats'] = {
+  header: {
+    avatar: {
+      isEmpty: false,
+      isEditable: true,
+      src: Avatar2,
+      alt: 'Личность профиля',
+      name: 'Недвижимость',
+    },
+  },
+  feed: {
+    isEmpty: true,
+  },
+  sidebar: {
+    activeChatId: '2',
+    chats: [
+      {
+        id: '1',
+        title: 'Владимир',
+        avatar: AvatarVladimir,
+        unread_count: 1,
+        last_message: {
+          user: {
+            id: '1',
+            avatar: AvatarVladimir,
+            email: 'vladimir@yandex.ru',
+            login: 'vladimir',
+            first_name: 'Владимир',
+            second_name: 'Шестаков',
+            display_name: 'Vldmr',
+            phone: '+7 (999) 123 10 77',
+          },
+          time: '11:28',
+          content:
+            'Привет! Я тебе вчера звонил, хотел сообщить, что пора сдавать работу, Новый Год на носу! Мы уже нарядили, украсили ёлку, закупили подарки, ждем с нетерпением!',
+        },
+      },
+      {
+        id: '2',
+        title: 'Недвижимость',
+        avatar: Avatar2,
+        unread_count: 3,
+        last_message: {
+          user: {
+            id: '777',
+            avatar: Avatar2,
+            email: 'arenda@yandex.ru',
+            login: 'rieltor',
+            first_name: 'Руслан',
+            second_name: 'Андропов',
+            display_name: 'Nedviga',
+            phone: '+7 (909) 357 11 73',
+          },
+          time: '21:25',
+          content:
+            'Продам гараж. В отличном состоянии. Есть кессон, там можно хранить картошку.',
+        },
+      },
+    ],
   },
 };
 
@@ -141,6 +212,10 @@ export const appFooterTemplateLinks: LinkProps[] = [
   {
     text: 'Регистрация',
     to: 'signup',
+  },
+  {
+    text: 'Чаты',
+    to: 'chats',
   },
   {
     text: 'Профиль',
@@ -182,5 +257,11 @@ export const pagesMap: { [K in PageKey]: PageConfig<PagePropsMap[K]> } = {
     layout: PageLayout,
     sidebar: 'true',
     props: profilePageTemplateData,
+  },
+  chats: {
+    template: ChatsPageMain,
+    layout: PageLayout,
+    sidebar: ChatsPageSidebar,
+    props: chatsPageTemplateData,
   },
 };
