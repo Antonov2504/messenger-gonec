@@ -84,7 +84,9 @@ export class App {
       '.autogrow'
     ) as HTMLTextAreaElement | null;
 
-    if (!textarea) return;
+    if (!textarea) {
+      return;
+    }
 
     const maxRows = 5;
     const lineHeight = 1.25 * 16;
