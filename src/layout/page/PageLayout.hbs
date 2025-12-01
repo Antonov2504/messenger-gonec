@@ -1,0 +1,22 @@
+
+<div class="page-layout{{#if sidebar}} page-layout_format_sidebar{{/if}}">
+  {{#if sidebar}}
+    <aside class="page-layout__sidebar">
+      {{#if (eq sidebar "true")}}
+        <div class="page-layout__common-sidebar">
+          {{> Button id="page-layout-button-back" type="button" variant="primary-icon" icon="back" }}
+        </div>
+      {{else}}
+        {{{sidebar}}}
+      {{/if}}
+    </aside>
+  {{/if}}
+
+  <main class="page-layout__content{{#if sidebar}} page-layout__content_format_sidebar{{/if}}">
+    {{{content}}}
+  </main>
+</div>
+
+<footer>
+  {{> AppFooter links=links}}
+</footer>

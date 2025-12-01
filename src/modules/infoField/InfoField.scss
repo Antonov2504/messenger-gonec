@@ -1,0 +1,26 @@
+.info-field {
+  display: flex;
+  justify-content: stretch;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+  width: 100%;
+  gap: 8px;
+
+  &__label {
+    margin: 0;
+    text-align: start;
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  &__value {
+    flex: 1;
+    margin: 0;
+    color: var(--placeholder-color);
+    text-align: end;
+    font-family: Inter;
+    font-size: 16px;
+    line-height: 1;
+  }
+}

@@ -1,0 +1,13 @@
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 14px;
+  width: 26vw;
+  max-width: 340px;
+  min-height: 49vh;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 6px 0 #00000024;
+}
