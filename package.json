@@ -14,10 +14,13 @@
   "scripts": {
     "dev": "vite",
     "start": "vite build && node server.mjs",
-    "build": "tsc && vite build",
+    "prebuild": "tsc --noEmit",
+    "build": "npm run prebuild && vite build",
     "preview": "vite preview",
     "lint": "eslint ./src --ext .ts,.tsx",
     "lint:fix": "eslint ./src --ext .ts,.tsx --fix",
+    "stylelint": "stylelint \"src/**/*.{css,scss}\"",
+    "stylelint:fix": "stylelint \"src/**/*.{css,scss}\" --fix",
     "prettier": "prettier --write .",
     "precommit": "lint-staged --allow-empty",
     "prepare": "husky install"
@@ -26,6 +29,9 @@
     "*.{ts,tsx,js,jsx}": [
       "eslint --fix",
       "prettier --write"
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix"
     ]
   },
   "devDependencies": {
@@ -43,6 +49,10 @@
     "postcss-preset-env": "^10.4.0",
     "prettier": "^3.6.2",
     "sass": "^1.94.2",
+    "stylelint": "^16.26.1",
+    "stylelint-config-recommended-scss": "^16.0.2",
+    "stylelint-config-standard": "^39.0.1",
+    "stylelint-scss": "^6.13.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
     "vite": "^7.2.4"
