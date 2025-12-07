@@ -23,7 +23,7 @@
     "stylelint:fix": "stylelint \"src/**/*.{css,scss}\" --fix",
     "prettier": "prettier --write .",
     "precommit": "lint-staged --allow-empty",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
