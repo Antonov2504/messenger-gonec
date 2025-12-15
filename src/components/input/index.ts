@@ -1,1 +1,4 @@
-export { default as Input } from './Input.hbs?raw';
+// TODO: переместить в форму
+import '../../modules/form/Form.scss';
+
+export { Input } from './Input';

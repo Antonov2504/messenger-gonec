@@ -1,6 +1,12 @@
-export type ButtonProps = {
+import type { Props as BlockProps } from '@/shared/Block';
+
+export type ButtonProps = BlockProps & {
   id: string;
-  text: string;
-  type: string;
-  variant?: 'primary' | 'secondary' | 'danger' | 'primary-icon';
+  text?: string;
+  type?: HTMLButtonElement['type'];
+  icon?: 'options' | 'clip' | 'arrow' | 'back';
+  size?: 'm';
+  color?: 'danger';
+  variant?: 'primary' | 'secondary' | 'primary-icon' | 'icon';
+  onClick?: (e?: MouseEvent) => void;
 };

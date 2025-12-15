@@ -1,39 +1,13 @@
-import { Button } from '@components/button';
-import { Field } from '@components/field';
-import { Image } from '@components/image';
-import { Input } from '@components/input';
-import { Link } from '@components/link';
-import { TextArea } from '@components/textArea';
 import '@helpers/handlebarsHelpers.ts';
-import { AppFooter } from '@layout/appFooter';
-import { PageLayout } from '@layout/page/index.js';
-import { Avatar } from '@modules/avatar';
-import { Chat } from '@modules/chat';
-import { Form } from '@modules/form';
-import { InfoField } from '@modules/infoField';
-import Handlebars from 'handlebars';
 
-import { appFooterTemplateLinks, pagesMap } from './App.constants';
+import { pagesMap } from './App.constants';
 import type { PageKey } from './App.types';
-
-// Регистрируем партиции компонентов
-Handlebars.registerPartial('Image', Image);
-Handlebars.registerPartial('Input', Input);
-Handlebars.registerPartial('TextArea', TextArea);
-Handlebars.registerPartial('Button', Button);
-Handlebars.registerPartial('Link', Link);
-Handlebars.registerPartial('Field', Field);
-Handlebars.registerPartial('InfoField', InfoField);
-Handlebars.registerPartial('Form', Form);
-Handlebars.registerPartial('Avatar', Avatar);
-Handlebars.registerPartial('Chat', Chat);
-
-// Регистрируем партиции layout
-Handlebars.registerPartial('AppFooter', AppFooter);
-Handlebars.registerPartial('PageLayout', PageLayout);
+import { LoginPage } from './pages/LoginPage';
+import type { Block } from './shared/Block';
 
 type AppState = {
-  currentPage: PageKey;
+  currentPageKey: PageKey;
+  currentPage: Block;
 };
 
 export class App {
@@ -42,7 +16,8 @@ export class App {
 
   constructor() {
     this.state = {
-      currentPage: 'login',
+      currentPageKey: 'login',
+      currentPage: this.createPage('login'),
     };
 
     const appElement = document.querySelector('#app') as HTMLElement;
@@ -52,6 +27,7 @@ export class App {
     }
 
     this.appElement = appElement;
+    this.render();
   }
 
   htmlToNode(html: string): Node {
@@ -62,21 +38,26 @@ export class App {
   }
 
   render() {
-    const { layout, template, sidebar, props } =
-      pagesMap[this.state.currentPage];
+    const pageElement = this.state.currentPage.getContent();
 
-    const sidebarHtml = sidebar ? Handlebars.compile(sidebar)(props) : '';
-    const pageHtml = Handlebars.compile(template)(props);
+    if (pageElement) {
+      this.appElement.replaceChildren(pageElement);
+      this.state.currentPage.dispatchComponentDidMount();
+    }
+  }
 
-    const html = Handlebars.compile(layout)({
-      content: pageHtml,
-      sidebar: sidebarHtml,
-      links: appFooterTemplateLinks,
-    });
-
-    this.appElement.replaceChildren(this.htmlToNode(html));
-
-    this.attachEventListeners();
+  createPage(pageKey: PageKey) {
+    switch (pageKey) {
+      case 'login':
+        return new LoginPage();
+      default:
+        return new LoginPage();
+      // case 'signup':
+      // case 'chats':
+      // case 'profile':
+      // case 'notFound':
+      // case 'maintenance':
+    }
   }
 
   initAutoGrowTextArea() {
@@ -117,9 +98,9 @@ export class App {
     this.initAutoGrowTextArea();
   }
 
-  navigate(page: AppState['currentPage']) {
-    if (page !== this.state.currentPage) {
-      this.state.currentPage = page;
+  navigate(page: AppState['currentPageKey']) {
+    if (page !== this.state.currentPageKey) {
+      this.state.currentPageKey = page;
       this.render();
     }
 
