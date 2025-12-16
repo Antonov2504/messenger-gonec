@@ -37,7 +37,7 @@ const loginPageTemplateData: PagePropsMap['login'] = {
         label: 'Пароль',
       },
     ],
-    button: {
+    submitButton: {
       id: 'button-login',
       text: 'Войти',
       type: 'submit',
@@ -97,7 +97,7 @@ const registerPageTemplateData: PagePropsMap['signup'] = {
         label: 'Пароль (еще раз)',
       },
     ],
-    button: {
+    submitButton: {
       id: 'button-login',
       text: 'Зарегистрироваться',
       type: 'submit',

@@ -10,11 +10,17 @@
   font-size: 16px;
   line-height: 1;
   transition: 0.3s ease-in-out;
-  transition-property: background-color, color;
+  transition-property: background-color, border, color;
   cursor: pointer;
 
   &:hover {
     background-color: var(--hover-primary-color);
+  }
+
+  &:disabled {
+    border: 1px solid var(--bg-color-100);
+    background-color: var(--bg-color-100);
+    color: var(--placeholder-color);
   }
 
   &_variant_secondary {

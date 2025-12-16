@@ -21,6 +21,7 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+    position: relative;
 
     &_type_wide {
       flex-direction: row;
@@ -71,13 +72,32 @@
         pointer-events: none;
       }
     }
+
+    &_error {
+      .form__input {
+        border-bottom: 1px solid var(--error-color);
+      }
+    }
   }
 
   &__label {
+    align-self: flex-start;
     margin: 0;
     color: var(--placeholder-color);
     font-size: 12px;
     line-height: 1;
+    position: relative;
+
+    &_required::after {
+      content: '*';
+      color: var(--error-color);
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 1;
+      position: absolute;
+      right: -6px;
+      top: -2px;
+    }
   }
 
   &__input {
@@ -91,6 +111,9 @@
     line-height: 1;
     box-sizing: border-box;
     outline: none;
+    transition:
+      border-bottom,
+      0.3s ease-in-out;
 
     &::placeholder {
       color: var(--placeholder-color);

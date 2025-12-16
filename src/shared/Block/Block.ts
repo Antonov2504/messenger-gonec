@@ -9,6 +9,7 @@ export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
+    FLOW_CWU: 'flow:component-will-unmount',
     FLOW_RENDER: 'flow:render',
   };
 
@@ -20,7 +21,6 @@ export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
   private eventBus: () => EventBus;
 
   /**
-   * @param {string} tagName
    * @param {Object} props
    *
    * @returns {void}
@@ -41,7 +41,12 @@ export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
     return this._element;
   }
 
-  _getPropsAndChildren(propsWithChildren: P) {
+  protected _getChildArray<T extends Block>(key: string): T[] {
+    const child = this.children[key];
+    return Array.isArray(child) ? (child as T[]) : [];
+  }
+
+  protected _getPropsAndChildren(propsWithChildren: P) {
     const props: Partial<P> = {} as Partial<P>;
     const children: Record<string, Block | Block[]> = {};
 
@@ -86,6 +91,7 @@ export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
@@ -131,7 +137,13 @@ export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
     }
   }
 
-  setProps(nextProps: P | undefined) {
+  componentWillUnmount() {}
+
+  _componentWillUnmount() {
+    this.componentWillUnmount();
+  }
+
+  setProps(nextProps: Partial<P> | undefined) {
     if (!nextProps) {
       return;
     }

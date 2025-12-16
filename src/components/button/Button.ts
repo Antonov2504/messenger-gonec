@@ -14,6 +14,21 @@ export class Button extends Block<ButtonProps> {
     });
   }
 
+  componentDidUpdate(oldProps: ButtonProps, newProps: ButtonProps) {
+    const buttonElement = this.element;
+
+    if (oldProps.disabled === newProps.disabled) {
+      return false;
+    }
+
+    if (buttonElement instanceof HTMLButtonElement) {
+      buttonElement.disabled = newProps.disabled ?? false;
+      return false;
+    }
+
+    return true;
+  }
+
   render() {
     const {
       type = 'button',
@@ -21,6 +36,7 @@ export class Button extends Block<ButtonProps> {
       icon,
       color,
       size,
+      disabled,
     } = this.props;
 
     const classNames = [
@@ -38,6 +54,7 @@ export class Button extends Block<ButtonProps> {
         id={{id}}
         type="${type}"
         class="${classNames}"
+        ${disabled ? 'disabled' : ''}
       >
         {{text}}
       </button>

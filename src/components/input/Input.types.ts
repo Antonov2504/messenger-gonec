@@ -9,4 +9,6 @@ export type InputProps = BlockProps & {
   placeholder?: string;
   value?: string;
   required?: boolean;
+  onInput?: (name: string, value: string) => void;
+  onBlur?: (name: string) => void;
 };

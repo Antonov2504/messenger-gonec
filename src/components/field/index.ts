@@ -1,2 +1,2 @@
-export { default as Field } from './Field.hbs?raw';
+export { Field } from './Field';
 export type { FieldProps } from './Field.types';

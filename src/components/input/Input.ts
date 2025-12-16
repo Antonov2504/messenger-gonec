@@ -4,7 +4,35 @@ import type { InputProps } from './Input.types';
 
 export class Input extends Block<InputProps> {
   constructor(props: InputProps) {
-    super(props);
+    super({
+      ...props,
+      events: {
+        input: (e: Event) => {
+          if (e.target) {
+            const { name, value } = e.target as HTMLInputElement;
+            this.props.onInput?.(name, value);
+          }
+        },
+        blur: (e: Event) => {
+          const { name } = e.target as HTMLInputElement;
+          this.props.onBlur?.(name);
+        },
+      },
+    });
+  }
+
+  componentDidUpdate(oldProps: InputProps, newProps: InputProps) {
+    const inputElement = this.element;
+
+    if (
+      oldProps.value !== newProps.value &&
+      inputElement instanceof HTMLInputElement
+    ) {
+      inputElement.value = newProps.value ?? '';
+      return false;
+    }
+
+    return true;
   }
 
   render() {
@@ -19,21 +47,22 @@ export class Input extends Block<InputProps> {
       value,
     } = this.props;
 
+    const className = ['form__input'].filter(Boolean).join(' ');
+
     const attrs = [
       id && `id="${id}"`,
       name && `name="${name}"`,
       type && `type="${type}"`,
-      required && 'required',
       minlength && `minlength="${minlength}"`,
       maxlength && `maxlength="${maxlength}"`,
       placeholder && `placeholder="${placeholder}"`,
-      value && `value="${value}"`,
+      `value="${value ?? ''}"`,
+      required && 'required',
       'autocomplete="off"',
-      'class="form__input"',
     ]
       .filter(Boolean)
       .join(' ');
 
-    return `<input ${attrs} />`;
+    return `<input class="${className}" ${attrs} />`;
   }
 }

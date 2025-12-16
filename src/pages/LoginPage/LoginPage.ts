@@ -1,22 +1,43 @@
-import { Button } from '@/components/button';
-import { Input } from '@/components/input';
+import { Link } from '@/components/link';
+import { Form } from '@/modules/form';
 import { Block } from '@/shared/Block';
+
+import { loginFormValidators } from './LoginPage.constants';
 
 export class LoginPage extends Block {
   constructor() {
     super({
-      id: 'form-login-id',
       title: 'Вход',
-      input: new Input({
-        id: 'login-input',
-        name: 'login',
-        type: 'text',
+      form: new Form({
+        id: 'login-form',
+        fields: [
+          {
+            id: 'login-input',
+            name: 'login',
+            inputType: 'text',
+            label: 'Логин',
+            required: true,
+          },
+          {
+            id: 'password-input',
+            name: 'password',
+            inputType: 'password',
+            label: 'Пароль',
+            required: true,
+          },
+        ],
+        validators: loginFormValidators,
+        submitButton: {
+          id: 'button-login',
+          text: 'Войти',
+          type: 'submit',
+        },
+        onSubmit: (values) => console.log({ values }),
       }),
-      button: new Button({
-        id: 'login',
-        type: 'submit',
-        text: 'Войти',
-        onClick: () => console.log('click!!!'),
+      link: new Link({
+        text: 'Еще не зарегистрированы?',
+        to: 'signup',
+        className: 'link',
       }),
     });
   }
@@ -25,15 +46,8 @@ export class LoginPage extends Block {
     return `
       <section class="auth-page">
         <h1>{{title}}</h1>
-        <form id="{{id}}" action="#" class="form" autocomplete="off">
-          <fieldset class="form__fieldset">
-            {{{input}}}
-          </fieldset>
-
-          <div class="form__actions">
-            {{{button}}}
-          </div>
-        </form>
+        {{{form}}}
+        {{{link}}}
       </section>
     `;
   }
