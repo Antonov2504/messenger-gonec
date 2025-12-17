@@ -25,7 +25,8 @@ export class FormController {
     const rules = this.validators[name] ?? [];
 
     for (const validate of rules) {
-      const result = validate(value);
+      const result = validate(value, { values: this.values });
+
       if (!result.isValid) {
         this.errors[name] = result.error ?? '';
         return false;

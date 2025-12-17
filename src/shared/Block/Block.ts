@@ -18,6 +18,7 @@ export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
   public children: Record<string, Block | Block[]> = {};
   private _id: string = uuidv4();
   private _element: HTMLElement | null = null;
+  private _isMounted = false;
   private eventBus: () => EventBus;
 
   /**
@@ -110,10 +111,6 @@ export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
 
   _componentDidMount() {
     this.componentDidMount();
-  }
-
-  dispatchComponentDidMount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
 
     Object.values(this.children).forEach((value) => {
       if (Array.isArray(value)) {
@@ -122,6 +119,13 @@ export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
         value.dispatchComponentDidMount();
       }
     });
+  }
+
+  dispatchComponentDidMount() {
+    if (this._isMounted) return;
+
+    this._isMounted = true;
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -141,6 +145,21 @@ export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
 
   _componentWillUnmount() {
     this.componentWillUnmount();
+
+    Object.values(this.children).forEach((value) => {
+      if (Array.isArray(value)) {
+        value.forEach((block) => block.dispatchComponentWillUnmount());
+      } else {
+        value.dispatchComponentWillUnmount();
+      }
+    });
+  }
+
+  dispatchComponentWillUnmount() {
+    if (!this._isMounted) return;
+
+    this._isMounted = false;
+    this.eventBus().emit(Block.EVENTS.FLOW_CWU);
   }
 
   setProps(nextProps: Partial<P> | undefined) {

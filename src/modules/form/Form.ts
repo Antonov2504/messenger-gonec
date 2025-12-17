@@ -17,10 +17,13 @@ export class Form extends Block<FormBlockProps> {
         (field) =>
           new Field({
             ...field,
-            onInput: (name, value) => this._onInput(name, value),
-            onBlur: (name) => this._onBlur(name),
+            onInput: (name, value) => this._handleInput(name, value),
+            onBlur: (name) => this._handleBlur(name),
           })
       ),
+      events: {
+        submit: (e: Event) => this._handleSubmit(e as SubmitEvent),
+      },
       submitButton: new Button(submitButton),
       onSubmit,
     });
@@ -30,12 +33,17 @@ export class Form extends Block<FormBlockProps> {
     }
   }
 
-  private _onInput = (name: string, value: string) => {
+  private _handleInput = (name: string, value: string) => {
     this._values[name] = value;
 
     if (this.controller) {
       this.controller.setValue(name, value);
       this.controller.validateField(name);
+
+      // Провалилировать password_repeat при обновлении password
+      if (name === 'password') {
+        this.controller.validateField('password_repeat');
+      }
     }
 
     // Обновить значение value для инстанса блока Input
@@ -50,7 +58,7 @@ export class Form extends Block<FormBlockProps> {
     this._updateFormValidity();
   };
 
-  private _onBlur = (name: string) => {
+  private _handleBlur = (name: string) => {
     if (!this.controller) {
       return;
     }
@@ -69,14 +77,6 @@ export class Form extends Block<FormBlockProps> {
 
     this._updateFormValidity();
   };
-
-  componentDidMount() {
-    this.element?.addEventListener('submit', this._handleSubmit);
-  }
-
-  componentWillUnmount() {
-    this.element?.removeEventListener('submit', this._handleSubmit);
-  }
 
   private _handleSubmit = (e: SubmitEvent) => {
     e.stopPropagation();

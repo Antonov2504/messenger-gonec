@@ -3,10 +3,6 @@ import { Block } from '@/shared/Block';
 import type { PageLayoutProps } from './PageLayout.types';
 
 export class PageLayout extends Block<PageLayoutProps> {
-  constructor(props: PageLayoutProps) {
-    super(props);
-  }
-
   protected render(): string {
     const { sidebar, sidebarType } = this.props;
 

@@ -1,5 +1,6 @@
 import type { PageKey } from './App.types';
 import { PageFactory, loginPageConfig } from './pages';
+import { registerPageConfig } from './pages/authPage/configs/register.page';
 import type { Block } from './shared/Block';
 
 type AppState = {
@@ -24,6 +25,7 @@ export class App {
     }
 
     this.appElement = appElement;
+    this.attachEventListeners();
     this.render();
   }
 
@@ -38,11 +40,11 @@ export class App {
 
   createPage(pageKey: PageKey) {
     switch (pageKey) {
+      case 'signup':
+        return PageFactory.create(registerPageConfig);
       case 'login':
-        return PageFactory.create(loginPageConfig);
       default:
         return PageFactory.create(loginPageConfig);
-      // case 'signup':
       // case 'chats':
       // case 'profile':
       // case 'notFound':
@@ -75,26 +77,37 @@ export class App {
   attachEventListeners() {
     document.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
-      const page = target.dataset.page as PageKey | null;
+      const link = target.closest('a');
 
-      if (target.tagName === 'A' && page) {
-        event.stopPropagation();
-        event.preventDefault();
-
-        this.navigate(page);
+      if (!link) {
+        return;
       }
+
+      const page = link.dataset.page as PageKey | undefined;
+
+      if (!page) {
+        return;
+      }
+
+      event.stopPropagation();
+      event.preventDefault();
+
+      this.navigate(page);
     });
 
     this.initAutoGrowTextArea();
   }
 
   navigate(page: AppState['currentPageKey']) {
-    if (page !== this.state.currentPageKey) {
-      this.state.currentPageKey = page;
-      this.state.currentPage = this.createPage(page);
-      this.render();
+    if (page === this.state.currentPageKey) {
+      return;
     }
 
-    return;
+    this.state.currentPage.dispatchComponentWillUnmount();
+
+    this.state.currentPageKey = page;
+    this.state.currentPage = this.createPage(page);
+
+    this.render();
   }
 }

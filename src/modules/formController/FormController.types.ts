@@ -3,4 +3,11 @@ export type ValidationResult = {
   error?: string;
 };
 
-export type Validator = (value: string) => ValidationResult;
+export type ValidatorContext = {
+  values: Record<string, string>;
+};
+
+export type Validator = (
+  value: string,
+  context: ValidatorContext
+) => ValidationResult;
