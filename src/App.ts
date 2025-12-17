@@ -1,6 +1,11 @@
 import type { PageKey } from './App.types';
-import { PageFactory, loginPageConfig } from './pages';
-import { registerPageConfig } from './pages/authPage/configs/register.page';
+import {
+  PageFactory,
+  loginPageConfig,
+  maintenancePageConfig,
+  notFoundPageConfig,
+  registerPageConfig,
+} from './pages';
 import type { Block } from './shared/Block';
 
 type AppState = {
@@ -42,13 +47,15 @@ export class App {
     switch (pageKey) {
       case 'signup':
         return PageFactory.create(registerPageConfig);
+      case 'not-found':
+        return PageFactory.create(notFoundPageConfig);
+      case 'maintenance':
+        return PageFactory.create(maintenancePageConfig);
       case 'login':
       default:
         return PageFactory.create(loginPageConfig);
       // case 'chats':
       // case 'profile':
-      // case 'notFound':
-      // case 'maintenance':
     }
   }
 
