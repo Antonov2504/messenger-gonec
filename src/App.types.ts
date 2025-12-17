@@ -1,28 +1,5 @@
-import type {
-  AuthPageProps,
-  ChatsPageProps,
-  ErrorPageProps,
-  ProfilePageProps,
-} from '@pages/index';
-
-export type PageErrorKey = 'notFound' | 'maintenance';
+export type PageErrorKey = 'not-found' | 'maintenance';
 export type PageKey = 'login' | 'signup' | 'chats' | 'profile' | PageErrorKey;
-
-export type PagePropsMap = {
-  login: AuthPageProps;
-  signup: AuthPageProps;
-  notFound: ErrorPageProps;
-  maintenance: ErrorPageProps;
-  profile: ProfilePageProps;
-  chats: ChatsPageProps;
-};
-
-export type PageConfig<P> = {
-  layout: string;
-  template: string;
-  props: P;
-  sidebar?: string;
-};
 
 export type Avatar = {
   isEmpty: boolean;

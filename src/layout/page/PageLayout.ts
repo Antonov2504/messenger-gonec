@@ -1,6 +1,6 @@
 import { Block } from '@/shared/Block';
 
-import type { PageLayoutProps } from './PageLayoutProps.types';
+import type { PageLayoutProps } from './PageLayout.types';
 
 export class PageLayout extends Block<PageLayoutProps> {
   constructor(props: PageLayoutProps) {
@@ -13,12 +13,16 @@ export class PageLayout extends Block<PageLayoutProps> {
     const pageLayoutClassName = [
       'page-layout',
       sidebar && ` page-layout_format_sidebar`,
-    ];
+    ]
+      .filter(Boolean)
+      .join(' ');
 
     const mainClassName = [
       'page-layout__content',
       sidebar && ' page-layout__content_format_sidebar',
-    ];
+    ]
+      .filter(Boolean)
+      .join(' ');
 
     // {{> Button id="page-layout-button-back" type="button" variant="primary-icon" icon="back" }}
     const renderSidebar = () => {
@@ -34,17 +38,19 @@ export class PageLayout extends Block<PageLayoutProps> {
     };
 
     return `
-      <div class="${pageLayoutClassName}">
-        ${sidebar ? `<aside class="page-layout__sidebar">${renderSidebar()}</aside>` : ''}
+      <div class="page-root">
+        <div class="${pageLayoutClassName}">
+          ${sidebar ? `<aside class="page-layout__sidebar">${renderSidebar()}</aside>` : ''}
 
-        <main class="${mainClassName}">
-          {{{content}}}
-        </main>
+          <main class="${mainClassName}">
+            {{{content}}}
+          </main>
+        </div>
+
+        <footer>
+          {{{appFooter}}}
+        </footer>
       </div>
-
-      <footer>
-        {{appFooter}}
-      </footer>
     `;
   }
 }

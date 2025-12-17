@@ -1,8 +1,5 @@
-import '@helpers/handlebarsHelpers.ts';
-
-import { pagesMap } from './App.constants';
 import type { PageKey } from './App.types';
-import { LoginPage } from './pages/LoginPage';
+import { PageFactory, loginPageConfig } from './pages';
 import type { Block } from './shared/Block';
 
 type AppState = {
@@ -30,13 +27,6 @@ export class App {
     this.render();
   }
 
-  htmlToNode(html: string): Node {
-    const template = document.createElement('template');
-    template.innerHTML = html.trim();
-
-    return template.content.cloneNode(true);
-  }
-
   render() {
     const pageElement = this.state.currentPage.getContent();
 
@@ -49,9 +39,9 @@ export class App {
   createPage(pageKey: PageKey) {
     switch (pageKey) {
       case 'login':
-        return new LoginPage();
+        return PageFactory.create(loginPageConfig);
       default:
-        return new LoginPage();
+        return PageFactory.create(loginPageConfig);
       // case 'signup':
       // case 'chats':
       // case 'profile':
@@ -87,11 +77,11 @@ export class App {
       const target = event.target as HTMLElement;
       const page = target.dataset.page as PageKey | null;
 
-      if (target.tagName === 'A' && page && pagesMap[page]) {
+      if (target.tagName === 'A' && page) {
         event.stopPropagation();
         event.preventDefault();
 
-        this.navigate(page as PageKey);
+        this.navigate(page);
       }
     });
 
@@ -101,6 +91,7 @@ export class App {
   navigate(page: AppState['currentPageKey']) {
     if (page !== this.state.currentPageKey) {
       this.state.currentPageKey = page;
+      this.state.currentPage = this.createPage(page);
       this.render();
     }
 
