@@ -1,7 +1,4 @@
-import {
-  HTTPTransport,
-  type RequestOptions,
-} from '@/services/api/HTTPTransport';
+import { HTTPTransport, type RequestOptions } from '@/services/api';
 
 type FetchWithRetryOptions = RequestOptions & {
   retry?: number;
