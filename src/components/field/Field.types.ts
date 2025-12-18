@@ -11,6 +11,8 @@ export type FieldProps = {
   fieldType?: 'wide' | 'search';
   required?: boolean;
   error?: string;
+  placeholder?: string;
+  maxlength?: number;
   onInput?: (name: string, value: string) => void;
   onBlur?: (name: string) => void;
 };

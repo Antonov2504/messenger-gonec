@@ -18,8 +18,8 @@ export class Avatar extends Block<AvatarBlockProps> {
 
     const className = getClassName([
       'avatar',
-      isEmpty && 'avatar_empty',
-      isEditable && 'avatar_editable',
+      !!isEmpty && 'avatar_empty',
+      !!isEditable && 'avatar_editable',
       !!type && `avatar_type_${type}`,
       !!size && `avatar_size_${size}`,
     ]);

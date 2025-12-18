@@ -1,8 +1,9 @@
 import { Block } from '@/shared/Block';
+import { getClassName } from '@/shared/utils/string';
 
-import type { InputProps } from './Input.types';
+import type { InputBlockProps, InputProps } from './Input.types';
 
-export class Input extends Block<InputProps> {
+export class Input extends Block<InputBlockProps> {
   constructor(props: InputProps) {
     super({
       ...props,
@@ -40,24 +41,26 @@ export class Input extends Block<InputProps> {
       id,
       name,
       type = 'text',
-      required,
       minlength,
       maxlength,
       placeholder,
+      required,
+      disabled,
       value,
     } = this.props;
 
-    const className = ['form__input'].filter(Boolean).join(' ');
+    const className = getClassName(['form__input']);
 
     const attrs = [
-      id && `id="${id}"`,
-      name && `name="${name}"`,
+      `id="${id}"`,
+      `name="${name}"`,
       type && `type="${type}"`,
       minlength && `minlength="${minlength}"`,
       maxlength && `maxlength="${maxlength}"`,
       placeholder && `placeholder="${placeholder}"`,
       `value="${value ?? ''}"`,
       required && 'required',
+      disabled && 'disabled',
       'autocomplete="off"',
     ]
       .filter(Boolean)

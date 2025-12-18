@@ -1,6 +1,7 @@
 import type { PageKey } from './App.types';
 import {
   PageFactory,
+  chatsPageConfig,
   loginPageConfig,
   maintenancePageConfig,
   notFoundPageConfig,
@@ -20,8 +21,8 @@ export class App {
 
   constructor() {
     this.state = {
-      currentPageKey: 'login',
-      currentPage: this.createPage('login'),
+      currentPageKey: 'chats',
+      currentPage: this.createPage('chats'),
     };
 
     const appElement = document.querySelector('#app') as HTMLElement;
@@ -48,6 +49,8 @@ export class App {
     switch (pageKey) {
       case 'profile':
         return PageFactory.create(profilePageConfig);
+      case 'chats':
+        return PageFactory.create(chatsPageConfig);
       case 'not-found':
         return PageFactory.create(notFoundPageConfig);
       case 'maintenance':
@@ -57,30 +60,7 @@ export class App {
       case 'login':
       default:
         return PageFactory.create(loginPageConfig);
-      // case 'chats':
     }
-  }
-
-  initAutoGrowTextArea() {
-    const textarea = document.querySelector(
-      '.autogrow'
-    ) as HTMLTextAreaElement | null;
-
-    if (!textarea) {
-      return;
-    }
-
-    const maxRows = 5;
-    const lineHeight = 1.25 * 16;
-    const maxHeight = maxRows * lineHeight + 20;
-
-    const autoGrow = () => {
-      textarea.style.height = 'auto';
-      textarea.style.height = Math.min(textarea.scrollHeight, maxHeight) + 'px';
-    };
-
-    autoGrow();
-    textarea.addEventListener('input', autoGrow);
   }
 
   attachEventListeners() {
@@ -103,8 +83,6 @@ export class App {
 
       this.navigate(page);
     });
-
-    this.initAutoGrowTextArea();
   }
 
   navigate(page: AppState['currentPageKey']) {

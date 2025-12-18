@@ -1,5 +1,6 @@
 import { appFooterTemplateLinks } from '@/App.constants';
 import AvatarAlex from '@/assets/images/avatar.jpg';
+import { Button } from '@/components/button';
 import type { Validator } from '@/modules/formController';
 import type { BasePageConfig } from '@/pages/PageFactory';
 import {
@@ -68,6 +69,13 @@ export const PAGE_MODE = {
 } as const;
 
 export const profilePageConfig: BasePageConfig = {
+  sidebarType: 'back',
+  buttonBack: new Button({
+    id: 'page-layout-button-back',
+    variant: 'primary-icon',
+    icon: 'back',
+    onClick: () => console.log('back'),
+  }),
   content: new ProfilePageMain({
     avatar: {
       isEmpty: false,

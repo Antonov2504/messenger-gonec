@@ -1,4 +1,5 @@
 import { Block } from '@/shared/Block';
+import { getClassName } from '@/shared/utils/string';
 
 import './Button.scss';
 import type { ButtonBlockProps, ButtonProps } from './Button.types';
@@ -41,16 +42,14 @@ export class Button extends Block<ButtonBlockProps> {
       fullWidth,
     } = this.props;
 
-    const classNames = [
+    const classNames = getClassName([
       'button',
       variant && `button_variant_${variant}`,
-      icon && `button_icon_${icon}`,
-      color && `button_color_${color}`,
-      size && `button_size_${size}`,
-      fullWidth && `button_fullWidth`,
-    ]
-      .filter(Boolean)
-      .join(' ');
+      !!icon && `button_icon_${icon}`,
+      !!color && `button_color_${color}`,
+      !!size && `button_size_${size}`,
+      !!fullWidth && `button_fullWidth`,
+    ]);
 
     return `
       <button

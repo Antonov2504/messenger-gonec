@@ -1,4 +1,5 @@
 import { Block } from '@/shared/Block';
+import { getClassName } from '@/shared/utils/string';
 
 import { Input } from '../input';
 import type { FieldBlockProps, FieldProps, GetClassName } from './Field.types';
@@ -49,9 +50,10 @@ export class Field extends Block<FieldBlockProps> {
   render() {
     const { className, label, fieldType, required, error } = this.props;
 
-    const labelClassName = ['form__label', required && 'form__label_required']
-      .filter(Boolean)
-      .join(' ');
+    const labelClassName = getClassName([
+      'form__label',
+      !!required && 'form__label_required',
+    ]);
 
     const labelHtml = label ? `<p class="${labelClassName}">${label}</p>` : '';
 

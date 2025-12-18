@@ -1,17 +1,22 @@
 import type { Props as BlockProps } from '@/shared/Block';
 
-export type InputProps = {
+export type TextAreaProps = {
   id: string;
   name: string;
-  type?: HTMLInputElement['type'];
+  type?: HTMLTextAreaElement['type'];
   minlength?: number;
   maxlength?: number;
   placeholder?: string;
+  cols?: number;
+  rows?: number;
+  maxRows?: number;
   value?: string;
+  ariaLabel?: string;
   required?: boolean;
   disabled?: boolean;
+  readonly?: boolean;
   onInput?: (name: string, value: string) => void;
-  onBlur?: (name: string) => void;
+  onEnter?: () => void;
 };
 
-export type InputBlockProps = BlockProps & InputProps;
+export type TextAreaBlockProps = BlockProps & TextAreaProps;
