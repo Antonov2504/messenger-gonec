@@ -21,8 +21,8 @@ export class App {
 
   constructor() {
     this.state = {
-      currentPageKey: 'chats',
-      currentPage: this.createPage('chats'),
+      currentPageKey: 'login',
+      currentPage: this.createPage('login'),
     };
 
     const appElement = document.querySelector('#app') as HTMLElement;

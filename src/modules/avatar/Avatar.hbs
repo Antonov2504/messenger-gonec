@@ -1,8 +1,0 @@
-<figure class="avatar{{#if isEmpty}} avatar_empty{{/if}}{{#if isEditable}} avatar_editable{{/if}}{{#if (eq type "column")}} avatar_type_column{{/if}}{{#if (eq size "l")}} avatar_size_l{{else if (eq size "m")}} avatar_size_m{{/if}}">
-  <div class="avatar__image">
-    {{> Image src=src alt=alt }}
-  </div>
-  {{#if name}}
-    <figcaption class="avatar__name">{{name}}</figcaption>
-  {{/if}}
-</figure>

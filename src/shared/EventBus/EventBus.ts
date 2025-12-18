@@ -26,8 +26,7 @@ export class EventBus {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  emit(event: string, ...args: any[]) {
+  emit(event: string, ...args: unknown[]) {
     if (!this.listeners[event]) {
       throw new Error(`Нет события ${event}`);
     }
