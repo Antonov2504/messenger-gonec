@@ -38,6 +38,7 @@ export const loginPageConfig: BasePageConfig = {
         id: 'button-login',
         text: 'Войти',
         type: 'submit',
+        fullWidth: true,
       },
       onSubmit: (values) => console.log({ values }),
     }),

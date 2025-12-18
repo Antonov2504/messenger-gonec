@@ -4,6 +4,7 @@ import {
   loginPageConfig,
   maintenancePageConfig,
   notFoundPageConfig,
+  profilePageConfig,
   registerPageConfig,
 } from './pages';
 import type { Block } from './shared/Block';
@@ -45,17 +46,18 @@ export class App {
 
   createPage(pageKey: PageKey) {
     switch (pageKey) {
-      case 'signup':
-        return PageFactory.create(registerPageConfig);
+      case 'profile':
+        return PageFactory.create(profilePageConfig);
       case 'not-found':
         return PageFactory.create(notFoundPageConfig);
       case 'maintenance':
         return PageFactory.create(maintenancePageConfig);
+      case 'signup':
+        return PageFactory.create(registerPageConfig);
       case 'login':
       default:
         return PageFactory.create(loginPageConfig);
       // case 'chats':
-      // case 'profile':
     }
   }
 

@@ -25,3 +25,7 @@ export const getEnding = (word: string, number: number, endings: Endings) => {
 
   return word + endings[index];
 };
+
+export const getClassName = (classNames: Array<string | boolean>) => {
+  return classNames.filter(Boolean).join(' ');
+};

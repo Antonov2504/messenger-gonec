@@ -29,7 +29,7 @@
       "@layout/*": ["src/layout/*"],
       "@pages/*": ["src/pages/*"],
       "@helpers/*": ["src/helpers/*"],
-      "@utils/*": ["src/utils/*"]
+      "@shared/*": ["src/shared/*"]
     }
   },
   "include": ["src"]

@@ -104,6 +104,7 @@ export const registerPageConfig: BasePageConfig = {
         id: 'button-login',
         text: 'Зарегистрироваться',
         type: 'submit',
+        fullWidth: true,
       },
       onSubmit: (values) => console.log(values),
     }),

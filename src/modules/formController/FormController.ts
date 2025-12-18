@@ -4,12 +4,15 @@ export class FormController {
   private validators: Record<string, Validator[]>;
   private values: Record<string, string> = {};
   private errors: Record<string, string> = {};
-
   private touched: Record<string, boolean> = {};
   private submitted = false;
 
-  constructor(validators: Record<string, Validator[]>) {
+  constructor(
+    validators: Record<string, Validator[]>,
+    initialValues: Record<string, string> = {}
+  ) {
     this.validators = validators;
+    this.reset(initialValues);
   }
 
   setValue(name: string, value: string) {
@@ -61,5 +64,12 @@ export class FormController {
 
   getValues() {
     return { ...this.values };
+  }
+
+  reset(initialValues: Record<string, string>) {
+    this.values = { ...initialValues };
+    this.errors = {};
+    this.touched = {};
+    this.submitted = false;
   }
 }

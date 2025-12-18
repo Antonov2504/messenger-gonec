@@ -95,6 +95,16 @@ export const nameValidator =
     };
   };
 
+// Display name валидаторы
+const DISPLAY_CHARSET = 'A-Za-zА-ЯЁа-яё0-9_-';
+const DISPLAY_CHARSET_REGEX = new RegExp(`^[${DISPLAY_CHARSET}]+$`);
+export const displayCharsetValidator =
+  (message = 'Допустимы только буквы, цифры, "_" и "-"') =>
+  (value: string) => ({
+    isValid: DISPLAY_CHARSET_REGEX.test(value),
+    error: message,
+  });
+
 // Phone валидаторы
 const PHONE_REGEX = new RegExp('^\\+?\\d{10,15}$');
 

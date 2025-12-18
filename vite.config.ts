@@ -25,7 +25,7 @@ export default defineConfig({
       '@layout': resolve(__dirname, 'src/layout'),
       '@pages': resolve(__dirname, 'src/pages'),
       '@helpers': resolve(__dirname, 'src/helpers'),
-      '@utils': resolve(__dirname, 'src/utils'),
+      '@shared': resolve(__dirname, 'src/shared'),
     },
   },
 });

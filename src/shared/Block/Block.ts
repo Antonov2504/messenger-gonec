@@ -2,6 +2,7 @@ import Handlebars from 'handlebars';
 import { v4 as uuidv4 } from 'uuid';
 
 import { EventBus } from '../EventBus';
+import { deepEqual } from '../utils/deepEqual';
 import type { BaseProps, Props as BlockProps } from './Block.types';
 
 export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
@@ -128,9 +129,8 @@ export abstract class Block<P extends BlockProps = BaseProps & BlockProps> {
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  componentDidUpdate(_oldProps: P, _newProps: P) {
-    return true;
+  componentDidUpdate(oldProps: P, newProps: P) {
+    return !deepEqual(oldProps, newProps);
   }
 
   _componentDidUpdate(oldProps: P, newProps: P) {

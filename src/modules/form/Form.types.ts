@@ -7,13 +7,16 @@ export type FormProps = {
   id: string;
   fields: FieldProps[];
   submitButton: ButtonProps;
-  onSubmit?: (values: Record<string, string>) => void;
+  cancelButton?: ButtonProps;
   validators?: Record<string, Validator[]>;
+  onSubmit?: (values: Record<string, string>) => void;
+  onCancel?: () => void;
 };
 
 export type FormBlockProps = BlockProps & {
   id: FormProps['id'];
   fields: Field[];
   submitButton: Button;
+  cancelButton?: Button;
   onSubmit?: FormProps['onSubmit'];
 };

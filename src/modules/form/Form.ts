@@ -3,14 +3,23 @@ import { Field } from '@/components/field';
 import { FormController } from '@/modules/formController';
 import { Block } from '@/shared/Block';
 
+import './Form.scss';
 import type { FormBlockProps, FormProps } from './Form.types';
 
 export class Form extends Block<FormBlockProps> {
-  protected _values: Record<string, string> = {};
   private controller: FormController | null = null;
+  private _initialValues: Record<string, string> = {};
   private _isValid = true;
 
-  constructor({ id, fields, submitButton, validators, onSubmit }: FormProps) {
+  constructor({
+    id,
+    fields,
+    submitButton,
+    cancelButton,
+    validators,
+    onSubmit,
+    onCancel,
+  }: FormProps) {
     super({
       id,
       fields: fields.map(
@@ -25,17 +34,29 @@ export class Form extends Block<FormBlockProps> {
         submit: (e: Event) => this._handleSubmit(e as SubmitEvent),
       },
       submitButton: new Button(submitButton),
+      cancelButton: cancelButton
+        ? new Button({
+            ...cancelButton,
+            onClick: () => {
+              this.reset();
+              onCancel?.();
+            },
+          })
+        : undefined,
       onSubmit,
     });
 
     if (validators && Object.keys(validators).length) {
-      this.controller = new FormController(validators);
+      this._getChildArray<Field>('fields').forEach((field) => {
+        const { name, value } = field.input.props;
+        this._initialValues[name] = value ?? '';
+      });
+
+      this.controller = new FormController(validators, this._initialValues);
     }
   }
 
   private _handleInput = (name: string, value: string) => {
-    this._values[name] = value;
-
     if (this.controller) {
       this.controller.setValue(name, value);
       this.controller.validateField(name);
@@ -89,7 +110,16 @@ export class Form extends Block<FormBlockProps> {
     const controller = this.controller;
 
     if (!controller) {
-      this.props.onSubmit?.(this._values);
+      const values = this._getChildArray<Field>('fields').reduce<
+        Record<string, string>
+      >((acc, field) => {
+        const { name, value } = field.input.props;
+        acc[name] = value ?? '';
+
+        return acc;
+      }, {});
+
+      this.props.onSubmit?.(values);
       return;
     }
 
@@ -105,6 +135,24 @@ export class Form extends Block<FormBlockProps> {
 
     this.props.onSubmit?.(controller.getValues());
   };
+
+  private _reset() {
+    this._getChildArray<Field>('fields').forEach((field) => {
+      const { name } = field.input.props;
+
+      const initial = this._initialValues[name] ?? '';
+      field.input.setProps({ value: initial });
+      field.setError(undefined);
+    });
+
+    this.controller?.reset(this._initialValues);
+
+    this._updateFormValidity();
+  }
+
+  public reset() {
+    return this._reset();
+  }
 
   private _updateFormValidity() {
     if (!this.controller) {
@@ -132,6 +180,7 @@ export class Form extends Block<FormBlockProps> {
         </fieldset>
 
         <div class="form__actions">
+          {{{cancelButton}}}
           {{{submitButton}}}
         </div>
       </form>

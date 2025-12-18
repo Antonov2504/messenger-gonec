@@ -1,7 +1,9 @@
-import type { Block, Props as BlockProps } from '@/shared/Block';
+import type { Link } from '@/components/link';
+import type { Form } from '@/modules/form';
+import type { Props as BlockProps } from '@/shared/Block';
 
 export type AuthPageMainBlockProps = BlockProps & {
   title: string;
-  form: Block;
-  link: Block;
+  form: Form;
+  link: Link;
 };

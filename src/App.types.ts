@@ -1,16 +1,6 @@
 export type PageErrorKey = 'not-found' | 'maintenance';
 export type PageKey = 'login' | 'signup' | 'chats' | 'profile' | PageErrorKey;
 
-export type Avatar = {
-  isEmpty: boolean;
-  isEditable: boolean;
-  src: string;
-  alt: string;
-  name: string;
-  size?: string;
-  type?: 'column';
-};
-
 export type UserDto = {
   id: string;
   first_name: string;

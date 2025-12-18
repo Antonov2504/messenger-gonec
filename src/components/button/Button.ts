@@ -1,11 +1,13 @@
 import { Block } from '@/shared/Block';
 
-import type { ButtonProps } from './Button.types';
+import './Button.scss';
+import type { ButtonBlockProps, ButtonProps } from './Button.types';
 
-export class Button extends Block<ButtonProps> {
-  constructor(props: ButtonProps) {
+export class Button extends Block<ButtonBlockProps> {
+  constructor({ type, ...props }: ButtonProps) {
     super({
       ...props,
+      type: type ?? 'button',
       events: {
         click: (e: MouseEvent) => {
           props.onClick?.(e);
@@ -31,12 +33,12 @@ export class Button extends Block<ButtonProps> {
 
   render() {
     const {
-      type = 'button',
       variant = 'primary',
       icon,
       color,
       size,
       disabled,
+      fullWidth,
     } = this.props;
 
     const classNames = [
@@ -45,14 +47,15 @@ export class Button extends Block<ButtonProps> {
       icon && `button_icon_${icon}`,
       color && `button_color_${color}`,
       size && `button_size_${size}`,
+      fullWidth && `button_fullWidth`,
     ]
       .filter(Boolean)
       .join(' ');
 
     return `
       <button
-        id={{id}}
-        type="${type}"
+        id="{{id}}"
+        type="{{type}}"
         class="${classNames}"
         ${disabled ? 'disabled' : ''}
       >

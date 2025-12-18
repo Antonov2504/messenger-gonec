@@ -1,5 +1,4 @@
 .button {
-  width: 100%;
   padding: 8px 16px;
   background-color: var(--primary-color);
   border: 1px solid var(--primary-color);
@@ -23,16 +22,32 @@
     color: var(--placeholder-color);
   }
 
+  &_fullWidth {
+    width: 100%;
+  }
+
   &_variant_secondary {
-    width: initial;
     padding: 0;
     background-color: transparent;
-    border: 0;
+    border: 1px solid transparent;
     color: var(--primary-color);
 
     &:hover {
       background-color: transparent;
       color: var(--hover-primary-color);
+    }
+  }
+
+  &_variant_outlined {
+    padding: 8px 16px;
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+
+    &:hover {
+      color: var(--hover-primary-color);
+      background-color: transparent;
+      border: 1px solid var(--hover-primary-color);
     }
   }
 
