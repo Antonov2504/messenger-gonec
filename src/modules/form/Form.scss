@@ -21,6 +21,7 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+    position: relative;
 
     &_type_wide {
       flex-direction: row;
@@ -29,11 +30,16 @@
 
       .form__label {
         width: 50%;
+        padding: 0 0 10px;
         border-bottom: 1px solid var(--border-color);
         color: var(--text-color);
         font-weight: 500;
         font-size: 16px;
-        line-height: 1;
+        line-height: 20px;
+
+        &_required::after {
+          display: none;
+        }
       }
 
       .form__input {
@@ -46,9 +52,13 @@
         color: var(--placeholder-color);
         text-align: right;
         font-size: 16px;
-        line-height: 1;
+        line-height: 20px;
         box-sizing: border-box;
         outline: none;
+      }
+
+      .form__input-error {
+        padding-top: 4px;
       }
     }
 
@@ -71,13 +81,32 @@
         pointer-events: none;
       }
     }
+
+    &_error {
+      .form__input {
+        border-bottom: 1px solid var(--error-color);
+      }
+    }
   }
 
   &__label {
+    align-self: flex-start;
     margin: 0;
     color: var(--placeholder-color);
     font-size: 12px;
     line-height: 1;
+    position: relative;
+
+    &_required::after {
+      content: '*';
+      color: var(--error-color);
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 1;
+      position: absolute;
+      right: -6px;
+      top: -2px;
+    }
   }
 
   &__input {
@@ -91,6 +120,9 @@
     line-height: 1;
     box-sizing: border-box;
     outline: none;
+    transition:
+      border-bottom,
+      0.3s ease-in-out;
 
     &::placeholder {
       color: var(--placeholder-color);
@@ -104,5 +136,12 @@
     font-weight: 400;
     font-size: 10px;
     line-height: 1;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
   }
 }

@@ -1,8 +1,22 @@
-import type { ButtonProps } from '@components/button';
-import type { FieldProps } from '@components/field';
+import type { Validator } from '@/modules/formController';
+import type { Props as BlockProps } from '@/shared/Block';
+import type { Button, ButtonProps } from '@components/button';
+import type { Field, FieldProps } from '@components/field';
 
 export type FormProps = {
   id: string;
   fields: FieldProps[];
-  button: ButtonProps;
+  submitButton: ButtonProps;
+  cancelButton?: ButtonProps;
+  validators?: Record<string, Validator[]>;
+  onSubmit?: (values: Record<string, string>) => void;
+  onCancel?: () => void;
+};
+
+export type FormBlockProps = BlockProps & {
+  id: FormProps['id'];
+  fields: Field[];
+  submitButton: Button;
+  cancelButton?: Button;
+  onSubmit?: FormProps['onSubmit'];
 };

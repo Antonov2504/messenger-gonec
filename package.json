@@ -14,17 +14,24 @@
   "scripts": {
     "dev": "vite",
     "start": "vite build && node server.mjs",
-    "build": "tsc && vite build",
+    "prebuild": "tsc --noEmit",
+    "build": "npm run prebuild && vite build",
     "preview": "vite preview",
     "lint": "eslint ./src --ext .ts,.tsx",
     "lint:fix": "eslint ./src --ext .ts,.tsx --fix",
+    "stylelint": "stylelint \"src/**/*.{css,scss}\"",
+    "stylelint:fix": "stylelint \"src/**/*.{css,scss}\" --fix",
     "prettier": "prettier --write .",
     "precommit": "lint-staged --allow-empty",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,scss}": [
+      "stylelint --fix",
       "prettier --write"
     ]
   },
@@ -43,12 +50,17 @@
     "postcss-preset-env": "^10.4.0",
     "prettier": "^3.6.2",
     "sass": "^1.94.2",
+    "stylelint": "^16.26.1",
+    "stylelint-config-recommended-scss": "^16.0.2",
+    "stylelint-config-standard": "^39.0.1",
+    "stylelint-scss": "^6.13.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
     "vite": "^7.2.4"
   },
   "dependencies": {
     "express": "^5.1.0",
-    "handlebars": "^4.7.8"
+    "handlebars": "^4.7.8",
+    "uuid": "^13.0.0"
   }
 }

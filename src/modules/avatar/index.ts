@@ -1,3 +1,2 @@
-import './Avatar.scss';
-
-export { default as Avatar } from './Avatar.hbs?raw';
+export { Avatar } from './Avatar';
+export type { AvatarProps } from './Avatar.types';

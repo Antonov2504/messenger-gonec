@@ -1,3 +1,2 @@
-import './Image.scss';
-
-export { default as Image } from './Image.hbs?raw';
+export { Image } from './Image';
+export type { ImageProps } from './Image.types';

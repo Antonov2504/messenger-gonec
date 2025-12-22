@@ -1,7 +1,7 @@
 .link {
   color: var(--primary-color);
   text-decoration: none;
-  font-family: 'Inter';
+  font-family: inherit;
   font-weight: 500;
   font-size: 11px;
   line-height: 1;
@@ -19,7 +19,8 @@
       content: '';
       width: 12px;
       height: 12px;
-      background: center / contain no-repeat url('@assets/images/icons/chevron.svg');
+      background: center / contain no-repeat
+        url('@assets/images/icons/chevron.svg');
       position: absolute;
       top: 2px;
       right: 0;

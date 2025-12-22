@@ -60,7 +60,7 @@
     line-clamp: 2;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   &__unread {
@@ -74,7 +74,6 @@
     border-radius: 50%;
     background-color: var(--primary-color);
     color: var(--text-color-white);
-    font-family: Inter;
     font-size: 12px;
     line-height: 1;
   }

@@ -1,39 +1,18 @@
-import { Button } from '@components/button';
-import { Field } from '@components/field';
-import { Image } from '@components/image';
-import { Input } from '@components/input';
-import { Link } from '@components/link';
-import { TextArea } from '@components/textArea';
-import '@helpers/handlebarsHelpers.ts';
-import { AppFooter } from '@layout/appFooter';
-import { PageLayout } from '@layout/page/index.js';
-import { Avatar } from '@modules/avatar';
-import { Chat } from '@modules/chat';
-import { Form } from '@modules/form';
-import { InfoField } from '@modules/infoField';
-import Handlebars from 'handlebars';
-
-import { appFooterTemplateLinks, pagesMap } from './App.constants';
 import type { PageKey } from './App.types';
-
-// Регистрируем партиции компонентов
-Handlebars.registerPartial('Image', Image);
-Handlebars.registerPartial('Input', Input);
-Handlebars.registerPartial('TextArea', TextArea);
-Handlebars.registerPartial('Button', Button);
-Handlebars.registerPartial('Link', Link);
-Handlebars.registerPartial('Field', Field);
-Handlebars.registerPartial('InfoField', InfoField);
-Handlebars.registerPartial('Form', Form);
-Handlebars.registerPartial('Avatar', Avatar);
-Handlebars.registerPartial('Chat', Chat);
-
-// Регистрируем партиции layout
-Handlebars.registerPartial('AppFooter', AppFooter);
-Handlebars.registerPartial('PageLayout', PageLayout);
+import {
+  PageFactory,
+  chatsPageConfig,
+  loginPageConfig,
+  maintenancePageConfig,
+  notFoundPageConfig,
+  profilePageConfig,
+  registerPageConfig,
+} from './pages';
+import type { Block } from './shared/Block';
 
 type AppState = {
-  currentPage: PageKey;
+  currentPageKey: PageKey;
+  currentPage: Block;
 };
 
 export class App {
@@ -42,7 +21,8 @@ export class App {
 
   constructor() {
     this.state = {
-      currentPage: 'login',
+      currentPageKey: 'login',
+      currentPage: this.createPage('login'),
     };
 
     const appElement = document.querySelector('#app') as HTMLElement;
@@ -52,77 +32,69 @@ export class App {
     }
 
     this.appElement = appElement;
-  }
-
-  htmlToNode(html: string): Node {
-    const template = document.createElement('template');
-    template.innerHTML = html.trim();
-
-    return template.content.cloneNode(true);
+    this.attachEventListeners();
+    this.render();
   }
 
   render() {
-    const { layout, template, sidebar, props } =
-      pagesMap[this.state.currentPage];
+    const pageElement = this.state.currentPage.getContent();
 
-    const sidebarHtml = sidebar ? Handlebars.compile(sidebar)(props) : '';
-    const pageHtml = Handlebars.compile(template)(props);
-
-    const html = Handlebars.compile(layout)({
-      content: pageHtml,
-      sidebar: sidebarHtml,
-      links: appFooterTemplateLinks,
-    });
-
-    this.appElement.replaceChildren(this.htmlToNode(html));
-
-    this.attachEventListeners();
+    if (pageElement) {
+      this.appElement.replaceChildren(pageElement);
+      this.state.currentPage.dispatchComponentDidMount();
+    }
   }
 
-  initAutoGrowTextArea() {
-    const textarea = document.querySelector(
-      '.autogrow'
-    ) as HTMLTextAreaElement | null;
-
-    if (!textarea) {
-      return;
+  createPage(pageKey: PageKey) {
+    switch (pageKey) {
+      case 'profile':
+        return PageFactory.create(profilePageConfig);
+      case 'chats':
+        return PageFactory.create(chatsPageConfig);
+      case 'not-found':
+        return PageFactory.create(notFoundPageConfig);
+      case 'maintenance':
+        return PageFactory.create(maintenancePageConfig);
+      case 'signup':
+        return PageFactory.create(registerPageConfig);
+      case 'login':
+      default:
+        return PageFactory.create(loginPageConfig);
     }
-
-    const maxRows = 5;
-    const lineHeight = 1.25 * 16;
-    const maxHeight = maxRows * lineHeight + 20;
-
-    const autoGrow = () => {
-      textarea.style.height = 'auto';
-      textarea.style.height = Math.min(textarea.scrollHeight, maxHeight) + 'px';
-    };
-
-    autoGrow();
-    textarea.addEventListener('input', autoGrow);
   }
 
   attachEventListeners() {
     document.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
-      const page = target.dataset.page as PageKey | null;
+      const link = target.closest('a');
 
-      if (target.tagName === 'A' && page && pagesMap[page]) {
-        event.stopPropagation();
-        event.preventDefault();
-
-        this.navigate(page as PageKey);
+      if (!link) {
+        return;
       }
-    });
 
-    this.initAutoGrowTextArea();
+      const page = link.dataset.page as PageKey | undefined;
+
+      if (!page) {
+        return;
+      }
+
+      event.stopPropagation();
+      event.preventDefault();
+
+      this.navigate(page);
+    });
   }
 
-  navigate(page: AppState['currentPage']) {
-    if (page !== this.state.currentPage) {
-      this.state.currentPage = page;
-      this.render();
+  navigate(page: AppState['currentPageKey']) {
+    if (page === this.state.currentPageKey) {
+      return;
     }
 
-    return;
+    this.state.currentPage.dispatchComponentWillUnmount();
+
+    this.state.currentPageKey = page;
+    this.state.currentPage = this.createPage(page);
+
+    this.render();
   }
 }

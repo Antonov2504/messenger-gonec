@@ -1,7 +1,7 @@
 .form__textarea {
   width: 100%;
   min-width: 0;
-  max-height: calc(1.25em * var(--max-rows, 8) + 44px);
+  max-height: calc(1.25em * 8 + 44px);
   padding: 10px 22px;
   background-color: var(--text-color-white);
   border-radius: 30px;
@@ -9,7 +9,7 @@
   color: var(--text-color);
   font-family: inherit;
   font-size: 16px;
-  line-height: 1.25;
+  line-height: 20px;
   transition: 0.3s ease-in-out;
   transition-property: border-color, box-shadow;
   resize: none;
@@ -18,7 +18,7 @@
 
   &:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    box-shadow: 0 0 0 4px rgb(37 99 235 / 0.08);
     outline: none;
   }
 

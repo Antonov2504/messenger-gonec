@@ -1,0 +1,1 @@
+export { ClipControl } from './ClipControl';
