@@ -12,6 +12,11 @@ export type RequestOptions = {
   data?: RequestData;
 };
 
+type HTTPRequestMethod = (
+  url: string,
+  options?: MethodOptions
+) => Promise<XMLHttpRequest>;
+
 const METHODS: Record<HTTPMethod, HTTPMethod> = {
   GET: 'GET',
   POST: 'POST',
@@ -36,7 +41,7 @@ const queryStringify = (data?: Record<string, unknown>) => {
 };
 
 export class HTTPTransport {
-  get = (url: string, options: MethodOptions = {}) => {
+  get: HTTPRequestMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.GET },
@@ -44,7 +49,7 @@ export class HTTPTransport {
     );
   };
 
-  post = (url: string, options: MethodOptions = {}) => {
+  post: HTTPRequestMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.POST },
@@ -52,7 +57,7 @@ export class HTTPTransport {
     );
   };
 
-  put = (url: string, options: MethodOptions = {}) => {
+  put: HTTPRequestMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.PUT },
@@ -60,7 +65,7 @@ export class HTTPTransport {
     );
   };
 
-  delete = (url: string, options: MethodOptions = {}) => {
+  delete: HTTPRequestMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.DELETE },
