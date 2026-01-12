@@ -1,3 +1,4 @@
+import { routes } from '@/App.constants';
 import { Field } from '@/components/field';
 import { Link } from '@/components/link';
 import { Chat } from '@/modules/chat';
@@ -14,7 +15,7 @@ export class ChatsPageSidebar extends Block<ChatsPageSidebarBlockProps> {
     super({
       link: new Link({
         className: 'link link_type_chevron chats-page__link',
-        to: 'profile',
+        to: routes.profile,
         text: 'Профиль',
       }),
       search: new Field({

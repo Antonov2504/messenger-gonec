@@ -1,6 +1,5 @@
 import AvatarVladimir from '@assets/images/avatar-1.jpg';
 import Avatar2 from '@assets/images/avatar-2.jpg';
-import type { LinkProps } from '@components/link';
 
 import type {
   ChatsPageMainProps,
@@ -70,35 +69,11 @@ export const chatsPageTemplateData: ChatsPageMainProps & ChatsPageSidebarProps =
     },
   };
 
-export const appFooterTemplateLinks: LinkProps[] = [
-  {
-    text: 'Авторизация',
-    to: 'login',
-    className: 'link',
-  },
-  {
-    text: 'Регистрация',
-    to: 'signup',
-    className: 'link',
-  },
-  {
-    text: 'Чаты',
-    to: 'chats',
-    className: 'link',
-  },
-  {
-    text: 'Профиль',
-    to: 'profile',
-    className: 'link',
-  },
-  {
-    text: '404',
-    to: 'not-found',
-    className: 'link',
-  },
-  {
-    text: '500',
-    to: 'maintenance',
-    className: 'link',
-  },
-];
+export const routes = {
+  login: '/',
+  signup: '/sign-up',
+  profile: '/settings',
+  chats: '/messenger',
+  maintenance: '/maintenance',
+  notFound: '*',
+} as const;

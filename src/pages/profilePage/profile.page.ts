@@ -1,8 +1,9 @@
-import { appFooterTemplateLinks } from '@/App.constants';
+import { routes } from '@/App.constants';
 import AvatarAlex from '@/assets/images/avatar.jpg';
 import { Button } from '@/components/button';
 import type { Validator } from '@/modules/formController';
 import type { BasePageConfig } from '@/pages/PageFactory';
+import { router } from '@/shared/Router';
 import {
   displayCharsetValidator,
   emailDomainLettersValidator,
@@ -74,7 +75,7 @@ export const profilePageConfig: BasePageConfig = {
     id: 'page-layout-button-back',
     variant: 'primary-icon',
     icon: 'back',
-    onClick: () => console.log('back'),
+    onClick: () => router.go(routes.chats),
   }),
   content: new ProfilePageMain({
     avatar: {
@@ -97,7 +98,4 @@ export const profilePageConfig: BasePageConfig = {
       phone: '+70906061799',
     },
   }),
-  footer: {
-    links: appFooterTemplateLinks,
-  },
 };

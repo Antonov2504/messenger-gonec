@@ -1,5 +1,7 @@
-export type PageErrorKey = 'not-found' | 'maintenance';
-export type PageKey = 'login' | 'signup' | 'chats' | 'profile' | PageErrorKey;
+import type { routes } from './App.constants';
+
+export type RouteKey = keyof typeof routes;
+export type RoutePath = (typeof routes)[RouteKey];
 
 export type UserDto = {
   id: string;

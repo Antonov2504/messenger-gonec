@@ -1,4 +1,4 @@
-import { appFooterTemplateLinks } from '@/App.constants';
+import { routes } from '@/App.constants';
 import { Link } from '@/components/link';
 import { Form } from '@/modules/form';
 import type { Validator } from '@/modules/formController';
@@ -44,11 +44,8 @@ export const loginPageConfig: BasePageConfig = {
     }),
     link: new Link({
       text: 'Еще не зарегистрированы?',
-      to: 'signup',
+      to: routes.signup,
       className: 'link',
     }),
   }),
-  footer: {
-    links: appFooterTemplateLinks,
-  },
 };

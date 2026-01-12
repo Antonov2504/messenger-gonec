@@ -41,10 +41,6 @@ export class PageLayout extends Block<PageLayoutProps> {
             {{{content}}}
           </main>
         </div>
-
-        <footer>
-          {{{appFooter}}}
-        </footer>
       </div>
     `;
   }

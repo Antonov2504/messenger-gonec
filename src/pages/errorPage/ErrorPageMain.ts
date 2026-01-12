@@ -1,3 +1,4 @@
+import { routes } from '@/App.constants';
 import { Link } from '@/components/link';
 import { Block } from '@/shared/Block';
 
@@ -13,7 +14,7 @@ export class ErrorPageMain extends Block<ErrorPageMainBlockProps> {
       ...props,
       link: new Link({
         text: 'Назад к чатам',
-        to: 'chats',
+        to: routes.chats,
         className: 'link',
       }),
     });
