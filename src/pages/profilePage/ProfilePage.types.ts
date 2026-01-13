@@ -11,6 +11,7 @@ import type { PAGE_MODE } from './profile.page';
 export type ProfilePageMainProps = {
   avatar: AvatarProps;
   info: UserDto;
+  onLogout: () => void;
 };
 
 export type PageMode = keyof typeof PAGE_MODE;

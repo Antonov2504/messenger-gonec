@@ -23,5 +23,5 @@ export const fetchWithRetry = (
   };
 
   const transport = new HTTPTransport();
-  return transport.request(url, options).catch(onError);
+  return transport.post(url, options).catch(onError);
 };

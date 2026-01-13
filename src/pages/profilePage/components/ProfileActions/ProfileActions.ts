@@ -31,6 +31,15 @@ export class ProfileActions extends Block<ProfileActionsBlockProps> {
     });
   }
 
+  public setLoadingLogout(isLoading: boolean) {
+    const button = this.children.buttonLogout as Button;
+
+    button.setProps({
+      loading: isLoading,
+      disabled: isLoading,
+    });
+  }
+
   protected render(): string {
     return `
       <ul class="profile-page__actions">

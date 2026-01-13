@@ -170,6 +170,15 @@ export class Form extends Block<FormBlockProps> {
     button.setProps({ disabled: !this._isValid });
   }
 
+  public setLoading(isLoading: boolean) {
+    const button = this.children.submitButton as Button;
+
+    button.setProps({
+      loading: isLoading,
+      disabled: isLoading || !this._isValid,
+    });
+  }
+
   protected render(): string {
     const { id } = this.props;
 

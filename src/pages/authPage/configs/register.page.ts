@@ -1,5 +1,7 @@
 import { routes } from '@/App.constants';
 import { Link } from '@/components/link';
+import { UserRegisterController } from '@/controllers/auth/UserRegister';
+import type { RegisterFormModel } from '@/models/RegisterFormModel';
 import { Form } from '@/modules/form';
 import type { Validator } from '@/modules/formController';
 import type { BasePageConfig } from '@/pages/PageFactory';
@@ -44,70 +46,77 @@ export const registerFormValidators: Record<string, Validator[]> = {
   password_repeat: [passwordRepeatValidator()],
 };
 
+const registerController = new UserRegisterController((isLoading) => {
+  registerForm.setLoading(isLoading);
+});
+
+const registerForm = new Form({
+  id: 'register-form',
+  fields: [
+    {
+      id: 'email-input',
+      name: 'email',
+      inputType: 'email',
+      label: 'Почта',
+      required: true,
+    },
+    {
+      id: 'login-input',
+      name: 'login',
+      inputType: 'text',
+      label: 'Логин',
+      required: true,
+    },
+    {
+      id: 'first-name-input',
+      name: 'first_name',
+      inputType: 'text',
+      label: 'Имя',
+      required: true,
+    },
+    {
+      id: 'second-name-input',
+      name: 'second_name',
+      inputType: 'text',
+      label: 'Фамилия',
+    },
+    {
+      id: 'phone-input',
+      name: 'phone',
+      inputType: 'text',
+      label: 'Телефон',
+      required: true,
+    },
+    {
+      id: 'password-input',
+      name: 'password',
+      inputType: 'password',
+      label: 'Пароль',
+      required: true,
+    },
+    {
+      id: 'password-repeat-input',
+      name: 'password_repeat',
+      inputType: 'password',
+      label: 'Пароль (еще раз)',
+      required: true,
+    },
+  ],
+  validators: registerFormValidators,
+  submitButton: {
+    id: 'button-login',
+    text: 'Зарегистрироваться',
+    type: 'submit',
+    fullWidth: true,
+  },
+  onSubmit: (values) =>
+    registerController.register(values as RegisterFormModel),
+});
+
 export const registerPageConfig: BasePageConfig = {
   content: new AuthPageMain({
     title: 'Регистрация',
-    form: new Form({
-      id: 'register-form',
-      fields: [
-        {
-          id: 'email-input',
-          name: 'email',
-          inputType: 'email',
-          label: 'Почта',
-          required: true,
-        },
-        {
-          id: 'login-input',
-          name: 'login',
-          inputType: 'text',
-          label: 'Логин',
-          required: true,
-        },
-        {
-          id: 'first-name-input',
-          name: 'first_name',
-          inputType: 'text',
-          label: 'Имя',
-          required: true,
-        },
-        {
-          id: 'second-name-input',
-          name: 'second_name',
-          inputType: 'text',
-          label: 'Фамилия',
-        },
-        {
-          id: 'phone-input',
-          name: 'phone',
-          inputType: 'text',
-          label: 'Телефон',
-          required: true,
-        },
-        {
-          id: 'password-input',
-          name: 'password',
-          inputType: 'password',
-          label: 'Пароль',
-          required: true,
-        },
-        {
-          id: 'password-repeat-input',
-          name: 'password_repeat',
-          inputType: 'password',
-          label: 'Пароль (еще раз)',
-          required: true,
-        },
-      ],
-      validators: registerFormValidators,
-      submitButton: {
-        id: 'button-login',
-        text: 'Зарегистрироваться',
-        type: 'submit',
-        fullWidth: true,
-      },
-      onSubmit: (values) => console.log(values),
-    }),
+    form: registerForm,
     link: new Link({
       text: 'Войти',
       to: routes.login,

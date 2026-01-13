@@ -1,6 +1,7 @@
 import { routes } from '@/App.constants';
 import AvatarAlex from '@/assets/images/avatar.jpg';
 import { Button } from '@/components/button';
+import { UserLogoutController } from '@/controllers/auth/UserLogout';
 import type { Validator } from '@/modules/formController';
 import type { BasePageConfig } from '@/pages/PageFactory';
 import { router } from '@/shared/Router';
@@ -21,6 +22,7 @@ import {
 } from '@/shared/constants/formValidators';
 
 import { ProfilePageMain } from './ProfilePageMain';
+import type { ProfileActions } from './components/ProfileActions';
 
 export const editProfileFormValidators: Record<string, Validator[]> = {
   email: [
@@ -69,6 +71,36 @@ export const PAGE_MODE = {
   },
 } as const;
 
+const logoutController = new UserLogoutController((isLoading) => {
+  const actions = profileContent.children.actions as ProfileActions;
+  actions.setLoadingLogout(isLoading);
+});
+
+const profileContent = new ProfilePageMain({
+  avatar: {
+    isEmpty: false,
+    isEditable: false,
+    src: AvatarAlex,
+    alt: 'Личность профиля',
+    name: 'Александр',
+    type: 'column',
+    size: 'l',
+  },
+  info: {
+    id: '1',
+    avatar: AvatarAlex,
+    email: 'username@yandex.ru',
+    login: 'username',
+    first_name: 'Александр',
+    second_name: 'Пушкин',
+    display_name: 'pushkin',
+    phone: '+70906061799',
+  },
+  // onUpdate: () => userController.update(),
+  // onChangePassword: () => userController.changePassword(),
+  onLogout: () => logoutController.logout(),
+});
+
 export const profilePageConfig: BasePageConfig = {
   sidebarType: 'back',
   buttonBack: new Button({
@@ -77,25 +109,5 @@ export const profilePageConfig: BasePageConfig = {
     icon: 'back',
     onClick: () => router.go(routes.chats),
   }),
-  content: new ProfilePageMain({
-    avatar: {
-      isEmpty: false,
-      isEditable: false,
-      src: AvatarAlex,
-      alt: 'Личность профиля',
-      name: 'Александр',
-      type: 'column',
-      size: 'l',
-    },
-    info: {
-      id: '1',
-      avatar: AvatarAlex,
-      email: 'username@yandex.ru',
-      login: 'username',
-      first_name: 'Александр',
-      second_name: 'Пушкин',
-      display_name: 'pushkin',
-      phone: '+70906061799',
-    },
-  }),
+  content: profileContent,
 };

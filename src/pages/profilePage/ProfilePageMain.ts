@@ -13,7 +13,7 @@ import { ProfilePasswordForm } from './components/ProfilePasswordForm';
 import { PAGE_MODE } from './profile.page';
 
 export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
-  constructor({ avatar, info }: ProfilePageMainProps) {
+  constructor({ avatar, info, onLogout }: ProfilePageMainProps) {
     super({
       mode: 'view',
       avatar: new Avatar(avatar),
@@ -33,7 +33,7 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
       actions: new ProfileActions({
         onEdit: () => this.setProps({ mode: 'edit' }),
         onChandgePassword: () => this.setProps({ mode: 'changePassword' }),
-        onLogout: () => console.log('logout'),
+        onLogout,
       }),
       name: info.first_name,
     });

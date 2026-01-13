@@ -10,6 +10,7 @@ export type ButtonProps = {
   variant?: 'primary' | 'secondary' | 'outlined' | 'primary-icon' | 'icon';
   disabled?: boolean;
   fullWidth?: boolean;
+  loading?: boolean;
   onClick?: (e?: MouseEvent) => void;
 };
 

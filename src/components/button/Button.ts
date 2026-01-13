@@ -20,6 +20,10 @@ export class Button extends Block<ButtonBlockProps> {
   componentDidUpdate(oldProps: ButtonProps, newProps: ButtonProps) {
     const buttonElement = this.element;
 
+    if (oldProps.loading !== newProps.loading) {
+      return true;
+    }
+
     if (oldProps.disabled === newProps.disabled) {
       return false;
     }
@@ -40,6 +44,7 @@ export class Button extends Block<ButtonBlockProps> {
       size,
       disabled,
       fullWidth,
+      loading,
     } = this.props;
 
     const classNames = getClassName([
@@ -49,6 +54,7 @@ export class Button extends Block<ButtonBlockProps> {
       !!color && `button_color_${color}`,
       !!size && `button_size_${size}`,
       !!fullWidth && `button_fullWidth`,
+      !!loading && `button_loading`,
     ]);
 
     return `
@@ -58,6 +64,7 @@ export class Button extends Block<ButtonBlockProps> {
         class="${classNames}"
         ${disabled ? 'disabled' : ''}
       >
+        ${loading ? '<div class="button__spinner"></div>' : ''}
         {{text}}
       </button>
     `;
