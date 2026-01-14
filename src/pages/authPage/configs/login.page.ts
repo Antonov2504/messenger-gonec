@@ -1,10 +1,10 @@
 import { routes } from '@/App.constants';
 import { Link } from '@/components/link';
-import { UserLoginController } from '@/controllers/auth/UserLogin';
-import type { LoginFormModel } from '@/models/LoginFormModel';
 import { Form } from '@/modules/form';
 import type { Validator } from '@/modules/formController';
 import type { BasePageConfig } from '@/pages/PageFactory';
+import { UserLoginController } from '@/pages/authPage/controllers/UserLogin';
+import type { LoginFormModel } from '@/pages/authPage/models/LoginFormModel';
 import { requiredValidator } from '@/shared/constants/formValidators';
 
 import { AuthPageMain } from '../AuthPageMain';

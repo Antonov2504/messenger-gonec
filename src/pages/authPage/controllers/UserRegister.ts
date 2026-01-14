@@ -1,12 +1,17 @@
 import { routes } from '@/App.constants';
+import type { RegisterFormModel } from '@/pages/authPage/models/RegisterFormModel';
 import { authAPI } from '@/services/api/AuthAPI';
 import { ErrorHandler } from '@/services/api/ErrorHandler';
 import { router } from '@/shared/Router';
 
-export class UserLogoutController {
+import { UserSessionController } from './UserSession';
+
+const sessionController = UserSessionController.getInstance();
+
+export class UserRegisterController {
   private _onLoadingChange?: (value: boolean) => void;
 
-  constructor(onLoadingChange?: (value: boolean) => void) {
+  constructor(onLoadingChange: (value: boolean) => void) {
     this._onLoadingChange = onLoadingChange;
   }
 
@@ -14,14 +19,13 @@ export class UserLogoutController {
     this._onLoadingChange?.(value);
   }
 
-  async logout() {
+  async register(data: RegisterFormModel) {
     try {
       this.setLoading(true);
-      await authAPI.logout();
+      await authAPI.signup(data);
+      await sessionController.fetchUser();
 
-      // TODO: удалить user из стора
-
-      router.go(routes.login);
+      router.go(routes.chats);
     } catch (error) {
       ErrorHandler.handle(error);
     } finally {

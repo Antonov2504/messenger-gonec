@@ -1,5 +1,5 @@
 import { routes } from '@/App.constants';
-import type { LoginFormModel } from '@/models/LoginFormModel';
+import type { LoginFormModel } from '@/pages/authPage/models/LoginFormModel';
 import { authAPI } from '@/services/api/AuthAPI';
 import { ErrorHandler } from '@/services/api/ErrorHandler';
 import { router } from '@/shared/Router';
@@ -23,10 +23,7 @@ export class UserLoginController {
     try {
       this.setLoading(true);
       await authAPI.signin(data);
-      const user = await sessionController.fetchUser();
-
-      // TODO: записать в стор
-      console.log({ user });
+      await sessionController.fetchUser();
 
       router.go(routes.chats);
     } catch (error) {

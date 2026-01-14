@@ -1,11 +1,10 @@
-import type { UserDto } from '@/App.types';
 import { authAPI } from '@/services/api/AuthAPI';
 import { ErrorHandler } from '@/services/api/ErrorHandler';
+import { Store } from '@/services/store';
 
 export class UserSessionController {
   private static _instance: UserSessionController | null = null;
-
-  user: UserDto | null = null;
+  private store = Store.getInstance();
 
   private constructor() {}
 
@@ -18,15 +17,17 @@ export class UserSessionController {
 
   async fetchUser() {
     try {
-      this.user = await authAPI.getUser();
-      return this.user;
+      const user = await authAPI.getUser();
+      this.store.setUser(user);
+
+      return user;
     } catch (error) {
       ErrorHandler.handle(error);
-      this.user = null;
+      return null;
     }
   }
 
   isLoggedIn(): boolean {
-    return this.user !== null;
+    return this.store.getState().user !== null;
   }
 }

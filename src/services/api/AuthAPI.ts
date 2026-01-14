@@ -1,6 +1,6 @@
 import type { UserDto } from '@/App.types';
-import type { LoginFormModel } from '@/models/LoginFormModel';
-import type { RegisterFormModel } from '@/models/RegisterFormModel';
+import type { LoginFormModel } from '@/pages/authPage/models/LoginFormModel';
+import type { RegisterFormModel } from '@/pages/authPage/models/RegisterFormModel';
 
 import { HTTPTransport } from './HTTPTransport';
 import { baseURL } from './constants';

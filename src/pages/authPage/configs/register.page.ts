@@ -1,10 +1,10 @@
 import { routes } from '@/App.constants';
 import { Link } from '@/components/link';
-import { UserRegisterController } from '@/controllers/auth/UserRegister';
-import type { RegisterFormModel } from '@/models/RegisterFormModel';
 import { Form } from '@/modules/form';
 import type { Validator } from '@/modules/formController';
 import type { BasePageConfig } from '@/pages/PageFactory';
+import { UserRegisterController } from '@/pages/authPage/controllers/UserRegister';
+import type { RegisterFormModel } from '@/pages/authPage/models/RegisterFormModel';
 import {
   emailDomainLettersValidator,
   emailFormatValidator,

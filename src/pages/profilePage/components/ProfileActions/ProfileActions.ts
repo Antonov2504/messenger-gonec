@@ -7,7 +7,12 @@ import type {
 } from './ProfileActions.types';
 
 export class ProfileActions extends Block<ProfileActionsBlockProps> {
-  constructor({ onEdit, onChandgePassword, onLogout }: ProfileActionsProps) {
+  constructor({
+    isLoadingLogout,
+    onEdit,
+    onChangePassword,
+    onLogout,
+  }: ProfileActionsProps) {
     super({
       buttonEdit: new Button({
         id: 'profile-edit-button',
@@ -19,25 +24,21 @@ export class ProfileActions extends Block<ProfileActionsBlockProps> {
         id: 'profile-password-edit-button',
         text: 'Изменить пароль',
         variant: 'secondary',
-        onClick: onChandgePassword,
+        onClick: onChangePassword,
       }),
       buttonLogout: new Button({
         id: 'profile-logout-button',
         text: 'Выйти',
         variant: 'secondary',
         color: 'danger',
+        loading: isLoadingLogout,
         onClick: onLogout,
       }),
     });
   }
 
-  public setLoadingLogout(isLoading: boolean) {
-    const button = this.children.buttonLogout as Button;
-
-    button.setProps({
-      loading: isLoading,
-      disabled: isLoading,
-    });
+  get buttonLogout(): Button {
+    return this.children.buttonLogout as Button;
   }
 
   protected render(): string {

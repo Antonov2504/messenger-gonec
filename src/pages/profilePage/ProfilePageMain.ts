@@ -1,6 +1,8 @@
 import { Avatar } from '@/modules/avatar';
+import { Store } from '@/services/store';
 import { Block } from '@/shared/Block';
 
+import { UserSessionController } from '../authPage/controllers/UserSession';
 import './ProfilePage.scss';
 import type {
   ProfilePageMainBlockProps,
@@ -10,32 +12,49 @@ import { ProfileActions } from './components/ProfileActions';
 import { ProfileInfo } from './components/ProfileInfo';
 import { ProfileInfoForm } from './components/ProfileInfoForm';
 import { ProfilePasswordForm } from './components/ProfilePasswordForm';
+import { UserProfileController } from './controllers/UserProfileController';
+import type { ChangePasswordFormModel } from './models/ChangePasswordFormModel';
+import type { EditProfileFormModel } from './models/EditProfileFormModel';
 import { PAGE_MODE } from './profile.page';
 
 export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
-  constructor({ avatar, info, onLogout }: ProfilePageMainProps) {
+  private store = Store.getInstance();
+  private profileController = UserProfileController.getInstance();
+
+  constructor({
+    mode,
+    avatar,
+    info,
+    isLoadingLogout,
+    onLogout,
+    onEdit,
+    onChangePassword,
+    onCancel,
+  }: ProfilePageMainProps) {
     super({
-      mode: 'view',
+      mode,
       avatar: new Avatar(avatar),
-      view: new ProfileInfo({
-        info,
-      }),
+      view: new ProfileInfo({ info }),
       edit: new ProfileInfoForm({
         info,
         onSubmitEditProfile: (values) => this._handleSubmitEditProfile(values),
-        onCancelEditProfile: () => this.setProps({ mode: 'view' }),
+        onCancelEditProfile: onCancel,
       }),
       changePassword: new ProfilePasswordForm({
         onSubmitChangePassword: (values) =>
           this._handleSubmitChangePassword(values),
-        onCancelChangePassword: () => this.setProps({ mode: 'view' }),
+        onCancelChangePassword: onCancel,
       }),
       actions: new ProfileActions({
-        onEdit: () => this.setProps({ mode: 'edit' }),
-        onChandgePassword: () => this.setProps({ mode: 'changePassword' }),
+        isLoadingLogout,
+        onEdit,
+        onChangePassword,
         onLogout,
       }),
       name: info.first_name,
+      info,
+      isLoadingLogout,
+      onCancel,
     });
   }
 
@@ -43,25 +62,60 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
     return this.children.avatar as Avatar;
   }
 
-  private _handleSubmitEditProfile(values: Record<string, string>) {
-    console.log('submit-edit-profile', { values });
-    this.setProps({ mode: 'view' });
+  get actions(): ProfileActions {
+    return this.children.actions as ProfileActions;
   }
 
-  private _handleSubmitChangePassword(values: Record<string, string>) {
-    console.log('submit-change-password', { values });
-    this.setProps({ mode: 'view' });
+  private _handleSubmitEditProfile(values: EditProfileFormModel) {
+    this.profileController.updateProfile(values);
   }
 
-  // TODO: оптимизировать с появлением контекста
+  private _handleSubmitChangePassword(values: ChangePasswordFormModel) {
+    this.profileController.changePassword(values);
+  }
+
+  componentDidMount() {
+    const user = this.store.getState().user;
+    if (!user) {
+      const session = UserSessionController.getInstance();
+      session.fetchUser();
+    }
+  }
+
   componentDidUpdate(
-    oldProps: ProfilePageMainBlockProps,
+    _: ProfilePageMainBlockProps,
     newProps: ProfilePageMainBlockProps
   ) {
-    if (oldProps.mode !== newProps.mode) {
-      this.avatar.setProps({
-        name: newProps.mode === 'view' ? this.props.name : undefined,
-      });
+    const { mode, info, isLoadingLogout, onCancel } = newProps;
+
+    this.avatar.setProps({
+      name: newProps.mode === 'view' ? info.first_name : undefined,
+    });
+
+    this.actions.buttonLogout.setProps({
+      loading: isLoadingLogout,
+      disabled: isLoadingLogout,
+    });
+
+    switch (mode) {
+      case 'view':
+        this.children.view = new ProfileInfo({ info });
+        break;
+      case 'edit':
+        this.children.edit = new ProfileInfoForm({
+          info,
+          onSubmitEditProfile: (values) =>
+            this._handleSubmitEditProfile(values),
+          onCancelEditProfile: onCancel,
+        });
+        break;
+      case 'changePassword':
+        this.children.changePassword = new ProfilePasswordForm({
+          onSubmitChangePassword: (values) =>
+            this._handleSubmitChangePassword(values),
+          onCancelChangePassword: onCancel,
+        });
+        break;
     }
 
     return true;

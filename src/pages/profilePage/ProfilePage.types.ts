@@ -11,7 +11,12 @@ import type { PAGE_MODE } from './profile.page';
 export type ProfilePageMainProps = {
   avatar: AvatarProps;
   info: UserDto;
+  mode: PageMode;
+  isLoadingLogout: boolean;
   onLogout: () => void;
+  onCancel: () => void;
+  onEdit: () => void;
+  onChangePassword: () => void;
 };
 
 export type PageMode = keyof typeof PAGE_MODE;
@@ -24,4 +29,7 @@ export type ProfilePageMainBlockProps = BlockProps & {
   edit: ProfileInfoForm;
   changePassword: ProfilePasswordForm;
   actions: ProfileActions;
+  info: UserDto;
+  isLoadingLogout: boolean;
+  onCancel: () => void;
 };

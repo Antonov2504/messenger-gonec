@@ -1,0 +1,76 @@
+import { UserLogoutController } from '@/pages/authPage/controllers/UserLogout';
+import type { AppState } from '@/services/store/types';
+
+import type { ProfilePageMainProps } from './ProfilePage.types';
+import { UserProfileController } from './controllers/UserProfileController';
+
+export const mapUserToProps = (state: AppState): ProfilePageMainProps => {
+  const user = state.user;
+  const logoutController = UserLogoutController.getInstance();
+  const profileController = UserProfileController.getInstance();
+
+  if (!user) {
+    return {
+      mode: state.settings.mode,
+      avatar: {
+        src: '',
+        alt: '',
+        name: '',
+        isEmpty: true,
+        isEditable: true,
+        type: 'column',
+        size: 'l',
+      },
+      info: {
+        id: '0',
+        email: '',
+        login: '',
+        first_name: '',
+        second_name: '',
+        display_name: '',
+        phone: '',
+        avatar: '',
+      },
+      isLoadingLogout: state.settings.isLoadingLogout,
+      onEdit: () => profileController.changeMode('edit'),
+      onChangePassword: () => profileController.changeMode('changePassword'),
+      onCancel: () => profileController.cancelEdit(),
+      onLogout: () => logoutController.logout(),
+    };
+  }
+
+  const {
+    id,
+    login,
+    email,
+    phone,
+    avatar,
+    first_name,
+    second_name,
+    display_name,
+  } = user;
+
+  return {
+    mode: state.settings.mode,
+    avatar: {
+      src: avatar ? `https://ya-praktikum.tech/api/v2/resources${avatar}` : '',
+      alt: 'Личность профиля',
+      name: first_name,
+    },
+    info: {
+      id,
+      email,
+      login,
+      first_name,
+      second_name,
+      display_name,
+      phone,
+      avatar,
+    },
+    onEdit: () => profileController.changeMode('edit'),
+    onChangePassword: () => profileController.changeMode('changePassword'),
+    onCancel: () => profileController.cancelEdit(),
+    onLogout: () => logoutController.logout(),
+    isLoadingLogout: state.settings.isLoadingLogout,
+  };
+};
