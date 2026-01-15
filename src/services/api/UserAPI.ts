@@ -18,6 +18,12 @@ export class UserAPI {
   changePassword(data: ChangePasswordFormModel) {
     return this.transport.put(`${this.baseUrl}/password`, { data });
   }
+
+  updateUserAvatar(data: FormData) {
+    return this.transport.put<UserDto>(`${this.baseUrl}/profile/avatar`, {
+      data,
+    });
+  }
 }
 
 export const userAPI = new UserAPI();

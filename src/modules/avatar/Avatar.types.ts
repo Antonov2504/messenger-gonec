@@ -9,6 +9,7 @@ export type AvatarProps = {
   type?: 'column';
   isEmpty?: boolean;
   isEditable?: boolean;
+  onClick?: (e?: MouseEvent) => void;
 };
 
 export type AvatarBlockProps = BlockProps & {

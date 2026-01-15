@@ -23,6 +23,20 @@ export class UserProfileController {
     return this._instance;
   }
 
+  async updateAvatar(file: File) {
+    try {
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      const updatedUser = await userAPI.updateUserAvatar(formData);
+
+      ToastService.success('Аватар пользователя успешно обновлен');
+      this.store.setUser(updatedUser);
+    } catch (error) {
+      ErrorHandler.handle(error);
+    }
+  }
+
   async updateProfile(values: EditProfileFormModel) {
     try {
       const updatedUser = await userAPI.updateUserData(values);

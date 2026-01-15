@@ -14,45 +14,45 @@ export const loginFormValidators: Record<string, Validator[]> = {
   password: [requiredValidator()],
 };
 
-const loginController = new UserLoginController(
-  (isLoading) => {
-    loginForm.setLoading(isLoading);
-  },
-  () => loginForm.reset()
-);
-
-const loginForm = new Form({
-  id: 'login-form',
-  fields: [
-    {
-      id: 'login-input',
-      name: 'login',
-      inputType: 'text',
-      label: 'Логин',
-      required: true,
-    },
-    {
-      id: 'password-input',
-      name: 'password',
-      inputType: 'password',
-      label: 'Пароль',
-      required: true,
-    },
-  ],
-  validators: loginFormValidators,
-  submitButton: {
-    id: 'button-login',
-    text: 'Войти',
-    type: 'submit',
-    fullWidth: true,
-  },
-  onSubmit: (values) => loginController.login(values as LoginFormModel),
-});
-
 export const loginPageConfig: BasePageConfig = {
   authRequired: false,
-  content: () =>
-    new AuthPageMain({
+  content: () => {
+    const loginController = new UserLoginController(
+      (isLoading) => {
+        loginForm.setLoading(isLoading);
+      },
+      () => loginForm.reset()
+    );
+
+    const loginForm = new Form({
+      id: 'login-form',
+      fields: [
+        {
+          id: 'login-input',
+          name: 'login',
+          inputType: 'text',
+          label: 'Логин',
+          required: true,
+        },
+        {
+          id: 'password-input',
+          name: 'password',
+          inputType: 'password',
+          label: 'Пароль',
+          required: true,
+        },
+      ],
+      validators: loginFormValidators,
+      submitButton: {
+        id: 'button-login',
+        text: 'Войти',
+        type: 'submit',
+        fullWidth: true,
+      },
+      onSubmit: (values) => loginController.login(values as LoginFormModel),
+    });
+
+    return new AuthPageMain({
       title: 'Вход',
       form: loginForm,
       link: new Link({
@@ -60,5 +60,6 @@ export const loginPageConfig: BasePageConfig = {
         to: routes.signup,
         className: 'link',
       }),
-    }),
+    });
+  },
 };

@@ -1,11 +1,14 @@
+import type { Image } from '@/components/image';
 import { Avatar } from '@/modules/avatar';
 import { Block } from '@/shared/Block';
+import { getAvatarUrl } from '@/shared/utils/string';
 
 import './ProfilePage.scss';
 import type {
   ProfilePageMainBlockProps,
   ProfilePageMainProps,
 } from './ProfilePage.types';
+import { AvatarUploadPopup } from './components/AvatarUploadPopup';
 import { ProfileActions } from './components/ProfileActions';
 import { ProfileInfo } from './components/ProfileInfo';
 import { ProfileInfoForm } from './components/ProfileInfoForm';
@@ -17,6 +20,7 @@ import { PAGE_MODE } from './profile.page';
 
 export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
   private profileController = UserProfileController.getInstance();
+  private isAvatarPopupOpen = false;
 
   constructor({
     mode,
@@ -30,11 +34,15 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
   }: ProfilePageMainProps) {
     super({
       mode,
-      avatar: new Avatar(avatar),
+      avatar: new Avatar({
+        ...avatar,
+        onClick: () => this._openAvatarPopup(),
+      }),
       view: new ProfileInfo({ info }),
       edit: new ProfileInfoForm({
         info,
-        onSubmitEditProfile: (values) => this._handleSubmitEditProfile(values),
+        onSubmitEditProfile: (values) =>
+          this._handleSubmitEditProfile(values as EditProfileFormModel),
         onCancelEditProfile: onCancel,
       }),
       changePassword: new ProfilePasswordForm({
@@ -52,6 +60,11 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
       info,
       isLoadingLogout,
       onCancel,
+      avatarPopup: new AvatarUploadPopup({
+        isOpened: false,
+        onClose: () => this._closeAvatarPopup(),
+        onSubmit: (file) => this._uploadAvatar(file),
+      }),
     });
   }
 
@@ -77,11 +90,43 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
     });
   }
 
+  private _openAvatarPopup() {
+    this.isAvatarPopupOpen = true;
+    this._updatePopup();
+  }
+
+  private _closeAvatarPopup() {
+    this.isAvatarPopupOpen = false;
+    this._updatePopup();
+  }
+
+  private _updatePopup() {
+    const popup = this.children.avatarPopup as AvatarUploadPopup;
+    popup.setProps({
+      isOpened: this.isAvatarPopupOpen,
+    });
+  }
+
+  private _uploadAvatar(file: File) {
+    this.profileController.updateAvatar(file);
+    this._closeAvatarPopup();
+  }
+
   componentDidUpdate(
-    _: ProfilePageMainBlockProps,
+    oldProps: ProfilePageMainBlockProps,
     newProps: ProfilePageMainBlockProps
   ) {
     const { mode, info, isLoadingLogout, onCancel } = newProps;
+
+    if (oldProps.info.avatar !== info.avatar) {
+      const avatarComponent = this.avatar;
+      const image = avatarComponent.children.image as Image;
+
+      image.setProps({
+        src: `${getAvatarUrl(info.avatar)}?t=${Date.now()}`,
+        alt: 'Аватар профиля',
+      });
+    }
 
     this.avatar.setProps({
       name: newProps.mode === 'view' ? info.first_name : undefined,
@@ -100,7 +145,7 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
         this.children.edit = new ProfileInfoForm({
           info,
           onSubmitEditProfile: (values) =>
-            this._handleSubmitEditProfile(values),
+            this._handleSubmitEditProfile(values as EditProfileFormModel),
           onCancelEditProfile: onCancel,
         });
         break;
@@ -124,6 +169,7 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
         {{{avatar}}}
         {{{${content}}}}
         ${showActions ? '{{{actions}}}' : ''}
+        {{{avatarPopup}}}
       </article>
     `;
   }

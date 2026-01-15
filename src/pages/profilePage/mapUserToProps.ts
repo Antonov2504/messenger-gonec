@@ -1,5 +1,6 @@
 import { UserLogoutController } from '@/pages/authPage/controllers/UserLogout';
 import type { AppState } from '@/services/store/types';
+import { getAvatarUrl } from '@/shared/utils/string';
 
 import type { ProfilePageMainProps } from './ProfilePage.types';
 import { UserProfileController } from './controllers/UserProfileController';
@@ -53,8 +54,8 @@ export const mapUserToProps = (state: AppState): ProfilePageMainProps => {
   return {
     mode: state.settings.mode,
     avatar: {
-      src: avatar ? `https://ya-praktikum.tech/api/v2/resources${avatar}` : '',
-      alt: avatar ? 'Личность профиля' : '',
+      src: avatar ? getAvatarUrl(avatar) : '',
+      alt: avatar ? 'Аватар профиля' : '',
       name: first_name,
       isEmpty: !avatar,
       isEditable: true,

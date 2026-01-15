@@ -1,4 +1,4 @@
-import { routes } from '@/App.constants';
+import { publicRoutes, routes } from '@/App.constants';
 import { ToastService } from '@/services/toast';
 import { router } from '@/shared/Router';
 
@@ -11,7 +11,12 @@ export class ErrorHandler {
     if (error instanceof ApiError) {
       message = error.reason;
 
-      if (error.status === 401 && window.location.pathname !== routes.login) {
+      if (
+        error.status === 401 &&
+        !publicRoutes.includes(
+          window.location.pathname as (typeof publicRoutes)[number]
+        )
+      ) {
         router.go(routes.login);
       }
     }

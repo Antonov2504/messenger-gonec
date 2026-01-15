@@ -1,0 +1,23 @@
+.avatar-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__title {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  &__link {
+    text-align: center;
+    color: var(--primary-color);
+    cursor: pointer;
+  }
+
+  &__filename {
+    text-align: center;
+    font-size: 14px;
+    color: var(--secondary-color);
+    word-break: break-all;
+  }
+}
