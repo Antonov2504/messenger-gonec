@@ -4,16 +4,22 @@ export class Route {
   private _pathname: string;
   private _getBlock: () => Block;
   private _block: Block | null = null;
-  private _props: { rootQuery: string };
+  private _props: { rootQuery: string; authRequired: boolean };
 
   constructor(
     pathname: string,
     getBlock: () => Block,
-    props: { rootQuery: string }
+    props: { rootQuery: string; authRequired: boolean }
   ) {
     this._pathname = pathname;
     this._getBlock = getBlock;
     this._props = props;
+  }
+
+  get config() {
+    return {
+      authRequired: this._props.authRequired,
+    };
   }
 
   match(pathname: string) {
@@ -27,6 +33,10 @@ export class Route {
       return;
     }
 
+    if (this._block) {
+      this.leave();
+    }
+
     this._block = this._getBlock();
     const content = this._block.getContent();
 
@@ -37,7 +47,12 @@ export class Route {
   }
 
   leave() {
-    this._block?.dispatchComponentWillUnmount();
+    if (!this._block) {
+      return;
+    }
+
+    this._block.dispatchComponentWillUnmount();
+    this._block.getContent()?.remove();
     this._block = null;
   }
 }

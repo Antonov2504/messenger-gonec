@@ -71,9 +71,9 @@ export const PAGE_MODE = {
 } as const;
 
 const ProfilePageMainConnected = connect(ProfilePageMain, mapUserToProps);
-const userProfile = new ProfilePageMainConnected({});
 
 export const profilePageConfig: BasePageConfig = {
+  authRequired: true,
   sidebarType: 'back',
   buttonBack: new Button({
     id: 'page-layout-button-back',
@@ -81,5 +81,5 @@ export const profilePageConfig: BasePageConfig = {
     icon: 'back',
     onClick: () => router.go(routes.chats),
   }),
-  content: userProfile,
+  content: () => new ProfilePageMainConnected({}),
 };

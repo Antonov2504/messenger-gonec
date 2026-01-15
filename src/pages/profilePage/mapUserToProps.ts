@@ -54,8 +54,12 @@ export const mapUserToProps = (state: AppState): ProfilePageMainProps => {
     mode: state.settings.mode,
     avatar: {
       src: avatar ? `https://ya-praktikum.tech/api/v2/resources${avatar}` : '',
-      alt: 'Личность профиля',
+      alt: avatar ? 'Личность профиля' : '',
       name: first_name,
+      isEmpty: !avatar,
+      isEditable: true,
+      type: 'column',
+      size: 'l',
     },
     info: {
       id,

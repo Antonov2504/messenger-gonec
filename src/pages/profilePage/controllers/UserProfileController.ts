@@ -1,6 +1,8 @@
 import type { UserDto } from '@/App.types';
 import { ErrorHandler } from '@/services/api/ErrorHandler';
+import { userAPI } from '@/services/api/UserAPI';
 import { Store } from '@/services/store';
+import { ToastService } from '@/services/toast';
 
 import type { PageMode } from '../ProfilePage.types';
 import type { ChangePasswordFormModel } from '../models/ChangePasswordFormModel';
@@ -23,7 +25,10 @@ export class UserProfileController {
 
   async updateProfile(values: EditProfileFormModel) {
     try {
-      console.log('updateProfile', { values });
+      const updatedUser = await userAPI.updateUserData(values);
+      ToastService.success('Данные пользователя успешно обновлены');
+
+      this.store.setUser(updatedUser);
       this.changeMode('view');
     } catch (error) {
       ErrorHandler.handle(error);
@@ -32,7 +37,9 @@ export class UserProfileController {
 
   async changePassword(values: ChangePasswordFormModel) {
     try {
-      console.log('changePassword', { values });
+      await userAPI.changePassword(values);
+      ToastService.success('Пароль успешно обновлен');
+
       this.changeMode('view');
     } catch (error) {
       ErrorHandler.handle(error);

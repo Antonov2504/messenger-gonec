@@ -23,6 +23,7 @@ export class UserSessionController {
       return user;
     } catch (error) {
       ErrorHandler.handle(error);
+      this.store.setUser(null);
       return null;
     }
   }

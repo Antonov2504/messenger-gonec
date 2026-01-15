@@ -11,7 +11,7 @@ export class ErrorHandler {
     if (error instanceof ApiError) {
       message = error.reason;
 
-      if (error.status === 401) {
+      if (error.status === 401 && window.location.pathname !== routes.login) {
         router.go(routes.login);
       }
     }

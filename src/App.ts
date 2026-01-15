@@ -24,11 +24,35 @@ export class App {
 
   initRoutes() {
     router
-      .use(routes.login, () => PageFactory.create(loginPageConfig))
-      .use(routes.signup, () => PageFactory.create(registerPageConfig))
-      .use(routes.profile, () => PageFactory.create(profilePageConfig))
-      .use(routes.chats, () => PageFactory.create(chatsPageConfig))
-      .use(routes.maintenance, () => PageFactory.create(maintenancePageConfig))
-      .use('*', () => PageFactory.create(notFoundPageConfig));
+      .use(
+        routes.login,
+        () => PageFactory.create(loginPageConfig),
+        loginPageConfig.authRequired
+      )
+      .use(
+        routes.signup,
+        () => PageFactory.create(registerPageConfig),
+        registerPageConfig.authRequired
+      )
+      .use(
+        routes.profile,
+        () => PageFactory.create(profilePageConfig),
+        profilePageConfig.authRequired
+      )
+      .use(
+        routes.chats,
+        () => PageFactory.create(chatsPageConfig),
+        chatsPageConfig.authRequired
+      )
+      .use(
+        routes.maintenance,
+        () => PageFactory.create(maintenancePageConfig),
+        maintenancePageConfig.authRequired
+      )
+      .use(
+        '*',
+        () => PageFactory.create(notFoundPageConfig),
+        notFoundPageConfig.authRequired
+      );
   }
 }

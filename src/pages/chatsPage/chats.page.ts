@@ -5,6 +5,7 @@ import { ChatsPageMain } from './ChatsPageMain';
 import { ChatsPageSidebar } from './ChatsPageSidebar';
 
 export const chatsPageConfig: BasePageConfig = {
+  authRequired: true,
   sidebar: new ChatsPageSidebar(chatsPageTemplateData),
-  content: new ChatsPageMain(chatsPageTemplateData),
+  content: () => new ChatsPageMain(chatsPageTemplateData),
 };

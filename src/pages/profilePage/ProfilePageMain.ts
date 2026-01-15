@@ -1,8 +1,6 @@
 import { Avatar } from '@/modules/avatar';
-import { Store } from '@/services/store';
 import { Block } from '@/shared/Block';
 
-import { UserSessionController } from '../authPage/controllers/UserSession';
 import './ProfilePage.scss';
 import type {
   ProfilePageMainBlockProps,
@@ -12,13 +10,12 @@ import { ProfileActions } from './components/ProfileActions';
 import { ProfileInfo } from './components/ProfileInfo';
 import { ProfileInfoForm } from './components/ProfileInfoForm';
 import { ProfilePasswordForm } from './components/ProfilePasswordForm';
+import type { ChangePasswordForm } from './components/ProfilePasswordForm/ProfilePasswordForm.types';
 import { UserProfileController } from './controllers/UserProfileController';
-import type { ChangePasswordFormModel } from './models/ChangePasswordFormModel';
 import type { EditProfileFormModel } from './models/EditProfileFormModel';
 import { PAGE_MODE } from './profile.page';
 
 export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
-  private store = Store.getInstance();
   private profileController = UserProfileController.getInstance();
 
   constructor({
@@ -42,7 +39,7 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
       }),
       changePassword: new ProfilePasswordForm({
         onSubmitChangePassword: (values) =>
-          this._handleSubmitChangePassword(values),
+          this._handleSubmitChangePassword(values as ChangePasswordForm),
         onCancelChangePassword: onCancel,
       }),
       actions: new ProfileActions({
@@ -70,16 +67,14 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
     this.profileController.updateProfile(values);
   }
 
-  private _handleSubmitChangePassword(values: ChangePasswordFormModel) {
-    this.profileController.changePassword(values);
-  }
-
-  componentDidMount() {
-    const user = this.store.getState().user;
-    if (!user) {
-      const session = UserSessionController.getInstance();
-      session.fetchUser();
-    }
+  private _handleSubmitChangePassword({
+    oldPassword,
+    password,
+  }: ChangePasswordForm) {
+    this.profileController.changePassword({
+      oldPassword,
+      newPassword: password,
+    });
   }
 
   componentDidUpdate(
@@ -112,7 +107,7 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
       case 'changePassword':
         this.children.changePassword = new ProfilePasswordForm({
           onSubmitChangePassword: (values) =>
-            this._handleSubmitChangePassword(values),
+            this._handleSubmitChangePassword(values as ChangePasswordForm),
           onCancelChangePassword: onCancel,
         });
         break;

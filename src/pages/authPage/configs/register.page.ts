@@ -46,9 +46,12 @@ export const registerFormValidators: Record<string, Validator[]> = {
   password_repeat: [passwordRepeatValidator()],
 };
 
-const registerController = new UserRegisterController((isLoading) => {
-  registerForm.setLoading(isLoading);
-});
+const registerController = new UserRegisterController(
+  (isLoading) => {
+    registerForm.setLoading(isLoading);
+  },
+  () => registerForm.reset()
+);
 
 const registerForm = new Form({
   id: 'register-form',
@@ -114,13 +117,15 @@ const registerForm = new Form({
 });
 
 export const registerPageConfig: BasePageConfig = {
-  content: new AuthPageMain({
-    title: 'Регистрация',
-    form: registerForm,
-    link: new Link({
-      text: 'Войти',
-      to: routes.login,
-      className: 'link',
+  authRequired: false,
+  content: () =>
+    new AuthPageMain({
+      title: 'Регистрация',
+      form: registerForm,
+      link: new Link({
+        text: 'Войти',
+        to: routes.login,
+        className: 'link',
+      }),
     }),
-  }),
 };

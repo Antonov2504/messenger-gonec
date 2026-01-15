@@ -14,9 +14,12 @@ export const loginFormValidators: Record<string, Validator[]> = {
   password: [requiredValidator()],
 };
 
-const loginController = new UserLoginController((isLoading) => {
-  loginForm.setLoading(isLoading);
-});
+const loginController = new UserLoginController(
+  (isLoading) => {
+    loginForm.setLoading(isLoading);
+  },
+  () => loginForm.reset()
+);
 
 const loginForm = new Form({
   id: 'login-form',
@@ -47,13 +50,15 @@ const loginForm = new Form({
 });
 
 export const loginPageConfig: BasePageConfig = {
-  content: new AuthPageMain({
-    title: 'Вход',
-    form: loginForm,
-    link: new Link({
-      text: 'Еще не зарегистрированы?',
-      to: routes.signup,
-      className: 'link',
+  authRequired: false,
+  content: () =>
+    new AuthPageMain({
+      title: 'Вход',
+      form: loginForm,
+      link: new Link({
+        text: 'Еще не зарегистрированы?',
+        to: routes.signup,
+        className: 'link',
+      }),
     }),
-  }),
 };

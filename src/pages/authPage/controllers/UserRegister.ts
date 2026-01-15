@@ -10,9 +10,14 @@ const sessionController = UserSessionController.getInstance();
 
 export class UserRegisterController {
   private _onLoadingChange?: (value: boolean) => void;
+  private _onSuccess?: () => void;
 
-  constructor(onLoadingChange: (value: boolean) => void) {
+  constructor(
+    onLoadingChange: (value: boolean) => void,
+    onSuccess?: () => void
+  ) {
     this._onLoadingChange = onLoadingChange;
+    this._onSuccess = onSuccess;
   }
 
   private setLoading(value: boolean) {
@@ -23,8 +28,11 @@ export class UserRegisterController {
     try {
       this.setLoading(true);
       await authAPI.signup(data);
-      await sessionController.fetchUser();
+      const user = await sessionController.fetchUser();
 
+      if (!user) return;
+
+      this._onSuccess?.();
       router.go(routes.chats);
     } catch (error) {
       ErrorHandler.handle(error);

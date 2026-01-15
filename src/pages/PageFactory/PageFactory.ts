@@ -4,6 +4,9 @@ import type { BasePageConfig } from './PageFactory.types';
 
 export class PageFactory {
   static create(configProps: BasePageConfig) {
-    return new PageLayout(configProps);
+    return new PageLayout({
+      ...configProps,
+      content: configProps.content(),
+    });
   }
 }

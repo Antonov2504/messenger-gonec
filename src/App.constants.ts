@@ -77,3 +77,5 @@ export const routes = {
   maintenance: '/maintenance',
   notFound: '*',
 } as const;
+
+export const publicRoutes = [routes.login, routes.signup, routes.maintenance];
