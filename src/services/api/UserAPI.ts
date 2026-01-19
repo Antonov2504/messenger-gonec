@@ -24,6 +24,10 @@ export class UserAPI {
       data,
     });
   }
+
+  search(data: { login: string }) {
+    return this.transport.post<UserDto[]>(`${this.baseUrl}/search`, { data });
+  }
 }
 
 export const userAPI = new UserAPI();

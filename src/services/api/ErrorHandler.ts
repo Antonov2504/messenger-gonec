@@ -19,6 +19,11 @@ export class ErrorHandler {
       ) {
         router.go(routes.login);
       }
+
+      if (error.status === 500) {
+        message = 'Идентификационная ошибка сервера';
+        router.go(routes.maintenance);
+      }
     }
 
     ToastService.error(message);

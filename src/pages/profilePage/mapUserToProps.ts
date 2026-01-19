@@ -23,7 +23,7 @@ export const mapUserToProps = (state: AppState): ProfilePageMainProps => {
         size: 'l',
       },
       info: {
-        id: '0',
+        id: 1,
         email: '',
         login: '',
         first_name: '',

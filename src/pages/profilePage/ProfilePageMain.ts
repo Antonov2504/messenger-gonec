@@ -1,14 +1,13 @@
-import type { Image } from '@/components/image';
 import { Avatar } from '@/modules/avatar';
 import { Block } from '@/shared/Block';
 import { getAvatarUrl } from '@/shared/utils/string';
 
+import { AvatarUploadPopup } from '../../modules/AvatarUploadPopup';
 import './ProfilePage.scss';
 import type {
   ProfilePageMainBlockProps,
   ProfilePageMainProps,
 } from './ProfilePage.types';
-import { AvatarUploadPopup } from './components/AvatarUploadPopup';
 import { ProfileActions } from './components/ProfileActions';
 import { ProfileInfo } from './components/ProfileInfo';
 import { ProfileInfoForm } from './components/ProfileInfoForm';
@@ -119,12 +118,15 @@ export class ProfilePageMain extends Block<ProfilePageMainBlockProps> {
     const { mode, info, isLoadingLogout, onCancel } = newProps;
 
     if (oldProps.info.avatar !== info.avatar) {
-      const avatarComponent = this.avatar;
-      const image = avatarComponent.children.image as Image;
-
-      image.setProps({
-        src: `${getAvatarUrl(info.avatar)}?t=${Date.now()}`,
-        alt: 'Аватар профиля',
+      this.children.avatar = new Avatar({
+        src: info.avatar ? `${getAvatarUrl(info.avatar)}?t=${Date.now()}` : '',
+        alt: info.avatar ? 'Аватар профиля' : '',
+        name: newProps.mode === 'view' ? info.first_name : undefined,
+        isEmpty: !info.avatar,
+        isEditable: true,
+        type: 'column',
+        size: 'l',
+        onClick: () => this._openAvatarPopup(),
       });
     }
 

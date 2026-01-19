@@ -6,6 +6,7 @@ export class PageFactory {
   static create(configProps: BasePageConfig) {
     return new PageLayout({
       ...configProps,
+      sidebar: configProps.sidebar?.(),
       content: configProps.content(),
     });
   }

@@ -4,7 +4,7 @@ export type RouteKey = keyof typeof routes;
 export type RoutePath = (typeof routes)[RouteKey];
 
 export type UserDto = {
-  id: string;
+  id: number;
   first_name: string;
   second_name: string;
   display_name: string;
@@ -21,9 +21,14 @@ export type MessageDto = {
 };
 
 export type ChatDto = {
-  id: string;
+  id: number;
+  created_by: number;
   title: string;
-  avatar: string;
+  avatar: string | null;
   unread_count: number;
-  last_message: MessageDto;
+  last_message: MessageDto | null;
+};
+
+export type TokenDto = {
+  token: string;
 };

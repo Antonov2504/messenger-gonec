@@ -3,7 +3,7 @@ import type { Block } from '@/shared/Block';
 
 export type BasePageConfig = {
   content: () => Block;
-  sidebar?: Block;
+  sidebar?: () => Block;
   sidebarType?: 'back';
   buttonBack?: Button;
   authRequired?: boolean;

@@ -20,7 +20,7 @@ export class UserLogoutController {
       this.store.setLogoutLoading(true);
       await authAPI.logout();
 
-      this.store.setUser(null);
+      this.store.reset();
       router.go(routes.login);
     } catch (e) {
       ErrorHandler.handle(e);

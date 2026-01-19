@@ -4,13 +4,18 @@ import './Popup.scss';
 import type { PopupBlockProps, PopupProps } from './Popup.types';
 
 export class Popup extends Block<PopupBlockProps> {
-  constructor(props: PopupProps) {
+  contentFactory: () => Block;
+
+  constructor({ content, ...rest }: PopupProps) {
     super({
-      ...props,
+      ...rest,
+      content: content(),
       events: {
         click: (e: Event) => this._handleClickOverlay(e),
       },
     });
+
+    this.contentFactory = content;
   }
 
   private _handleClickOverlay(e: Event) {
@@ -27,6 +32,12 @@ export class Popup extends Block<PopupBlockProps> {
   ): boolean {
     if (oldProps.isOpened !== newProps.isOpened) {
       this._toggleOpened(newProps.isOpened);
+
+      if (newProps.isOpened) {
+        this.children.content = this.contentFactory();
+        return true;
+      }
+
       return false;
     }
 

@@ -6,4 +6,12 @@ export const initialState: AppState = {
     isLoadingLogout: false,
     mode: 'view',
   },
+  messenger: {
+    chats: [],
+    users: [],
+    usersToAdd: [],
+    activeChat: null,
+    activeChatLoading: false,
+    token: '',
+  },
 };

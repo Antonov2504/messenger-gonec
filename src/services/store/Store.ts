@@ -1,18 +1,20 @@
+import type { ChatDto, UserDto } from '@/App.types';
 import { EventBus } from '@/shared/EventBus';
+import { deepClone } from '@/shared/utils/deepClone';
 
 import { initialState } from './constants';
 import type { AppState } from './types';
 
 export const StoreEvents = {
   Updated: 'updated',
-};
+} as const;
 
 export class Store extends EventBus {
-  private state: AppState = initialState;
+  private state: AppState = deepClone(initialState);
   private static instance: Store;
 
   public getState(): AppState {
-    return { ...this.state };
+    return deepClone(this.state);
   }
 
   public setState(newState: Partial<AppState>) {
@@ -49,10 +51,68 @@ export class Store extends EventBus {
         mode,
       },
     });
-    this.emit(StoreEvents.Updated);
   }
 
   getProfilePageMode() {
     return this.state.settings.mode;
+  }
+
+  setChats(chats: ChatDto[]) {
+    this.setState({
+      messenger: {
+        ...this.state.messenger,
+        chats,
+      },
+    });
+  }
+
+  setActiveChat(activeChat: ChatDto | null) {
+    this.setState({
+      messenger: {
+        ...this.state.messenger,
+        activeChat,
+      },
+    });
+  }
+
+  setActiveChatUsers(users: UserDto[]) {
+    this.setState({
+      messenger: {
+        ...this.state.messenger,
+        users,
+      },
+    });
+  }
+
+  setUsersToAdd(usersToAdd: UserDto[]) {
+    this.setState({
+      messenger: {
+        ...this.state.messenger,
+        usersToAdd,
+      },
+    });
+  }
+
+  setActiveChatToken(token: string) {
+    this.setState({
+      messenger: {
+        ...this.state.messenger,
+        token,
+      },
+    });
+  }
+
+  setActiveChatLoading(loading: boolean) {
+    this.setState({
+      messenger: {
+        ...this.state.messenger,
+        activeChatLoading: loading,
+      },
+    });
+  }
+
+  reset() {
+    this.state = deepClone(initialState);
+    this.emit(StoreEvents.Updated);
   }
 }

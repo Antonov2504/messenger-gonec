@@ -101,7 +101,7 @@ const DISPLAY_CHARSET_REGEX = new RegExp(`^[${DISPLAY_CHARSET}]+$`);
 export const displayCharsetValidator =
   (message = 'Допустимы только буквы, цифры, "_" и "-"') =>
   (value: string) => ({
-    isValid: DISPLAY_CHARSET_REGEX.test(value),
+    isValid: value === '' || DISPLAY_CHARSET_REGEX.test(value),
     error: message,
   });
 
@@ -161,3 +161,13 @@ export const passwordRepeatValidator =
       error: message,
     };
   };
+
+// Chat title валидаторы
+const CHAT_TITLE_CHARSET = 'A-Za-zА-ЯЁа-яё0-9_\\- ';
+const CHAT_TITLE_CHARSET_REGEX = new RegExp(`^[${CHAT_TITLE_CHARSET}]+$`);
+export const chatTitleCharsetValidator =
+  (message = 'Допустимы только буквы, цифры, пробел, "_" и "-"') =>
+  (value: string) => ({
+    isValid: CHAT_TITLE_CHARSET_REGEX.test(value),
+    error: message,
+  });

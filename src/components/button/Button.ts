@@ -1,14 +1,16 @@
 import { Block } from '@/shared/Block';
 import { getClassName } from '@/shared/utils/string';
 
+import { Icon } from '../icon';
 import './Button.scss';
 import type { ButtonBlockProps, ButtonProps } from './Button.types';
 
 export class Button extends Block<ButtonBlockProps> {
-  constructor({ type, ...props }: ButtonProps) {
+  constructor({ type, iconType, ...props }: ButtonProps) {
     super({
       ...props,
       type: type ?? 'button',
+      iconBlock: new Icon({ type: iconType, color: props.color }),
       events: {
         click: (e: MouseEvent) => {
           props.onClick?.(e);
@@ -45,6 +47,7 @@ export class Button extends Block<ButtonBlockProps> {
       disabled,
       fullWidth,
       loading,
+      iconType,
     } = this.props;
 
     const classNames = getClassName([
@@ -57,6 +60,14 @@ export class Button extends Block<ButtonBlockProps> {
       !!loading && `button_loading`,
     ]);
 
+    const renderIcon = () => {
+      if (iconType) {
+        return '';
+      }
+
+      return '{{{iconBlock}}}';
+    };
+
     return `
       <button
         id="{{id}}"
@@ -65,6 +76,7 @@ export class Button extends Block<ButtonBlockProps> {
         ${disabled ? 'disabled' : ''}
       >
         ${loading ? '<div class="button__spinner"></div>' : ''}
+        ${renderIcon()}
         {{text}}
       </button>
     `;
