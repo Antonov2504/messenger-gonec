@@ -30,6 +30,9 @@
 - **сборщик Vite**
 - **Принципы объектно-ориентированного программирования**
 - **Компонентный подход**
+- **Router**
+- **WebSocket**
+- **XMLHttpRequest**
 
 **Установка**
 
@@ -47,13 +50,12 @@ $ git clone https://github.com/Antonov2504/messenger-gonec.git
 
 **Cсылки на все свёрстанные страницы**
 
-Кастомный роутинг между страницами реализован с использованием HTML тега A и внутренним состоянием App.currentPage, поэтому url страниц пока нет.
-Появятся позже с добавлением полноценного роутинга.
-Для навигации между страницами временно добавлен Footer со списком ссылок на страницы. Он расположен внизу страницы.
+В проекте реализован кастомный роутинг между страницами.
+Для навигации между страницами можно использовать следующие ссылки:
 
 - [Авторизация](https://messenger-gonec.netlify.app)
-- [Регистрация](https://messenger-gonec.netlify.app)
-- [Чаты](https://messenger-gonec.netlify.app)
-- [Профиль](https://messenger-gonec.netlify.app)
-- [404](https://messenger-gonec.netlify.app)
-- [500](https://messenger-gonec.netlify.app)
+- [Регистрация](https://messenger-gonec.netlify.app/sign-up)
+- [Чаты](https://messenger-gonec.netlify.app/messenger)
+- [Профиль](https://messenger-gonec.netlify.app/settings)
+- [404](https://messenger-gonec.netlify.app/not-found)
+- [500](https://messenger-gonec.netlify.app/maintenance)
