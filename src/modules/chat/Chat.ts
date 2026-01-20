@@ -1,5 +1,6 @@
 import { Image } from '@/components/image';
 import { Block } from '@/shared/Block';
+import { formatLastMessageDate } from '@/shared/utils/date';
 import { getAvatarUrl, getClassName } from '@/shared/utils/string';
 
 import { Avatar } from '../avatar';
@@ -25,7 +26,8 @@ export class Chat extends Block<ChatBlockProps> {
       }),
       id,
       title,
-      lastMessageTime: last_message?.time ?? '',
+      userLogin: last_message?.user.login ?? '',
+      lastMessageTime: formatLastMessageDate(last_message?.time ?? ''),
       lastMessageContent: last_message?.content ?? '',
       unreadCount: unread_count,
       events: {
@@ -65,7 +67,7 @@ export class Chat extends Block<ChatBlockProps> {
   }
 
   protected render(): string {
-    const { unreadCount, isActive } = this.props;
+    const { unreadCount, isActive, userLogin } = this.props;
 
     const className = getClassName(['chat', isActive && 'chat_active']);
 
@@ -85,11 +87,14 @@ export class Chat extends Block<ChatBlockProps> {
         <div class="chat__info">
           <header class="chat__header">
             <h3 class="chat__title">{{title}}</h3>
-            <time class="chat__time" datetime="2025-11-30T20:29">{{lastMessageTime}}</time>
+            <time class="chat__time" datetime="{{lastMessageTime}}">{{lastMessageTime}}</time>
           </header>
 
           <div class="chat__meta">
-            <p class="chat__preview">{{lastMessageContent}}</p>
+            <p class="chat__preview">
+              <span class="chat__user-login">${userLogin ? userLogin + ': ' : ''}</span>
+              {{lastMessageContent}}
+            </p>
             ${renderUnreadCount()}
           </div>
         </div>

@@ -1,4 +1,4 @@
-import type { ChatDto, UserDto } from '@/App.types';
+import type { ChatDto, UserDto, WSMessageDto } from '@/App.types';
 import type { PageMode } from '@/pages/profilePage/ProfilePage.types';
 
 type SettingsProps = {
@@ -12,7 +12,7 @@ type MessengerProps = {
   usersToAdd: UserDto[];
   activeChat: ChatDto | null;
   activeChatLoading: boolean;
-  token: string;
+  messages: WSMessageDto[];
 };
 
 export type AppState = {

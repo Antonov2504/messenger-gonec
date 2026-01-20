@@ -9,6 +9,7 @@ import type {
 } from './ChatsPage.types';
 import './ChatsPageMain.scss';
 import { AddUserPopup } from './components/AddUserPopup';
+import { ChatFeedConnected } from './components/ChatFeed/ChatFeedConnected';
 import { ChatHeader } from './components/ChatHeader';
 import { ChatMessageControl } from './components/ChatMessageControl';
 import { RemoveUserPopup } from './components/RemoveUserPopup';
@@ -28,7 +29,7 @@ export class ChatsPageMain extends Block<ChatsPageMainBlockProps> {
       }),
       messageControl: new ChatMessageControl({
         onClip: () => console.log('clip attach'),
-        onSend: (message: string) => console.log(message),
+        onSend: (message: string) => this.chatsController.sendMessage(message),
       }),
       activeChat,
       avatarPopup: new AvatarUploadPopup({
@@ -49,6 +50,7 @@ export class ChatsPageMain extends Block<ChatsPageMainBlockProps> {
           this._closePopup();
         },
       }),
+      feed: new ChatFeedConnected({}),
     });
   }
 
@@ -175,8 +177,7 @@ export class ChatsPageMain extends Block<ChatsPageMainBlockProps> {
     return `
       <section class="chats-page">
         ${renderHeader()}
-
-        <article class="chats-page__feed">Выберите чат, чтобы отправить сообщение</article>
+        <article class="chats-page__feed">{{{feed}}}</article>
         
         ${renderMessageControl()}
         {{{avatarPopup}}}

@@ -32,3 +32,13 @@ export type ChatDto = {
 export type TokenDto = {
   token: string;
 };
+
+export type WSMessageDto = {
+  id: number;
+  chat_id: number;
+  type: 'message';
+  content: string;
+  is_read: boolean;
+  time: string;
+  user_id: number;
+};

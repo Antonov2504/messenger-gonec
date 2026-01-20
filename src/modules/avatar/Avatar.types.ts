@@ -5,7 +5,7 @@ export type AvatarProps = {
   src: string;
   alt: string;
   name?: string;
-  size?: string;
+  size?: 's' | 'm' | 'l';
   type?: 'column';
   isEmpty?: boolean;
   isEditable?: boolean;

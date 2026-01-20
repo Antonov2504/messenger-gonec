@@ -12,6 +12,7 @@ export type ChatBlockProps = BlockProps & {
   id: number;
   avatar: Avatar;
   title: string;
+  userLogin: string;
   lastMessageTime: string;
   lastMessageContent: string;
   unreadCount: number;

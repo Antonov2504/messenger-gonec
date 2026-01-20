@@ -28,6 +28,7 @@
   }
 
   &__title {
+    flex: 1;
     margin: 0;
     font-weight: 600;
     font-size: 16px;
@@ -66,6 +67,12 @@
     transition: color 0.3s ease-in-out;
   }
 
+  &__user-login {
+    font-size: 14px;
+    color: var(--primary-color);
+    transition: color 0.3s ease-in-out;
+  }
+
   &__unread {
     align-self: flex-end;
     display: flex;
@@ -93,7 +100,8 @@
 
   &_active .chat__title,
   &_active .chat__preview,
-  &_active .chat__time {
+  &_active .chat__time,
+  &_active .chat__user-login {
     color: var(--text-color-white);
   }
 

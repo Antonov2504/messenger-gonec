@@ -1,4 +1,4 @@
-import type { ChatDto, UserDto } from '@/App.types';
+import type { ChatDto, UserDto, WSMessageDto } from '@/App.types';
 import { EventBus } from '@/shared/EventBus';
 import { deepClone } from '@/shared/utils/deepClone';
 
@@ -93,13 +93,18 @@ export class Store extends EventBus {
     });
   }
 
-  setActiveChatToken(token: string) {
+  setMessages(messages: WSMessageDto[]) {
     this.setState({
       messenger: {
         ...this.state.messenger,
-        token,
+        messages,
       },
     });
+  }
+
+  addMessage(message: WSMessageDto) {
+    const messages = this.getState().messenger.messages || [];
+    this.setMessages([...messages, message]);
   }
 
   setActiveChatLoading(loading: boolean) {

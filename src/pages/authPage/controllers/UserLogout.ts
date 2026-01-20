@@ -1,4 +1,5 @@
 import { routes } from '@/App.constants';
+import { ChatsController } from '@/pages/chatsPage/controllers/ChatsController';
 import { authAPI } from '@/services/api/AuthAPI';
 import { ErrorHandler } from '@/services/api/ErrorHandler';
 import { Store } from '@/services/store';
@@ -7,6 +8,7 @@ import { router } from '@/shared/Router';
 export class UserLogoutController {
   private static instance: UserLogoutController;
   private store = Store.getInstance();
+  private chatsController = ChatsController.getInstance();
 
   static getInstance() {
     if (!this.instance) {
@@ -18,6 +20,7 @@ export class UserLogoutController {
   async logout() {
     try {
       this.store.setLogoutLoading(true);
+      this.chatsController.disconnect();
       await authAPI.logout();
 
       this.store.reset();

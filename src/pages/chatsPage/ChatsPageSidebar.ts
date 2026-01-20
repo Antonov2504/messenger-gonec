@@ -95,7 +95,6 @@ export class ChatsPageSidebar extends Block<ChatsPageSidebarBlockProps> {
     }
 
     this.chatsController.setActiveChat(activeChat);
-    this.chatsController.setActiveChatLoading(true);
 
     await this.chatsController.getChatUsers(activeChat.id);
     await this.chatsController.getChatToken(activeChat.id);

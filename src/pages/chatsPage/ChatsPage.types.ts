@@ -4,10 +4,11 @@ import type { Field } from '@/components/field';
 import type { Link } from '@/components/link';
 import type { AvatarUploadPopup } from '@/modules/AvatarUploadPopup';
 import type { Chat } from '@/modules/chat';
-import type { Props as BlockProps } from '@shared/Block';
+import type { Block, Props as BlockProps } from '@shared/Block';
 
 import type { AddChatPopup } from './components/AddChatPopup';
 import type { AddUserPopup } from './components/AddUserPopup';
+import type { ChatFeedBlockProps } from './components/ChatFeed/ChatFeed.types';
 import type { ChatHeader } from './components/ChatHeader';
 import type { ChatMessageControl } from './components/ChatMessageControl';
 import type { RemoveUserPopup } from './components/RemoveUserPopup';
@@ -18,6 +19,7 @@ export type ChatsPageMainProps = {
 
 export type ChatsPageMainBlockProps = BlockProps & {
   header: ChatHeader;
+  feed: Block<ChatFeedBlockProps>;
   messageControl: ChatMessageControl;
   activeChat: ChatDto | null;
   avatarPopup: AvatarUploadPopup;

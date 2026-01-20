@@ -9,9 +9,9 @@ export const initialState: AppState = {
   messenger: {
     chats: [],
     users: [],
+    messages: [],
     usersToAdd: [],
     activeChat: null,
     activeChatLoading: false,
-    token: '',
   },
 };
