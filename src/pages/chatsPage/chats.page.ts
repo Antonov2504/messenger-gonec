@@ -1,13 +1,20 @@
-import { appFooterTemplateLinks, chatsPageTemplateData } from '@/App.constants';
 import type { BasePageConfig } from '@/pages/PageFactory';
+import { connect } from '@/services/store';
 
 import { ChatsPageMain } from './ChatsPageMain';
 import { ChatsPageSidebar } from './ChatsPageSidebar';
+import { mapMessengerToMainProps } from './mapMessengerToMainProps';
+import { mapMessengerToSidebarProps } from './mapMessengerToSidebarProps';
+
+const ChatsPageSidebarConnected = connect(
+  ChatsPageSidebar,
+  mapMessengerToSidebarProps
+);
+
+const ChatsPageMainConnected = connect(ChatsPageMain, mapMessengerToMainProps);
 
 export const chatsPageConfig: BasePageConfig = {
-  sidebar: new ChatsPageSidebar(chatsPageTemplateData),
-  content: new ChatsPageMain(chatsPageTemplateData),
-  footer: {
-    links: appFooterTemplateLinks,
-  },
+  authRequired: true,
+  sidebar: () => new ChatsPageSidebarConnected({}),
+  content: () => new ChatsPageMainConnected({}),
 };

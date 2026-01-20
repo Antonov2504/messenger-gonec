@@ -1,14 +1,17 @@
-import type { Avatar } from '@/modules/avatar';
+import type { Avatar, AvatarProps } from '@/modules/avatar';
 import type { Props as BlockProps } from '@/shared/Block';
 
-import type { ChatsPageMainProps } from '../../ChatsPage.types';
 import type { OptionsControl } from './components/OptionsControl';
 
 export type ChatHeaderProps = {
-  header: ChatsPageMainProps['header'];
+  avatar: AvatarProps;
+  onAddUser: () => void;
+  onRemoveUser: () => void;
+  onRemoveChat: () => void;
 };
 
 export type ChatHeaderBlockProps = BlockProps & {
   avatar: Avatar;
+  avatarProps: AvatarProps;
   options: OptionsControl;
 };

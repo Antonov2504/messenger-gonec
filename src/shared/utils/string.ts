@@ -29,3 +29,11 @@ export const getEnding = (word: string, number: number, endings: Endings) => {
 export const getClassName = (classNames: Array<string | boolean>) => {
   return classNames.filter(Boolean).join(' ');
 };
+
+export const getAvatarUrl = (avatar?: string | null) => {
+  if (!avatar) {
+    return '';
+  }
+
+  return `https://ya-praktikum.tech/api/v2/resources${avatar}`;
+};

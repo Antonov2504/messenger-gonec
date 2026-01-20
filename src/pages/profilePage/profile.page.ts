@@ -1,8 +1,9 @@
-import { appFooterTemplateLinks } from '@/App.constants';
-import AvatarAlex from '@/assets/images/avatar.jpg';
+import { routes } from '@/App.constants';
 import { Button } from '@/components/button';
 import type { Validator } from '@/modules/formController';
 import type { BasePageConfig } from '@/pages/PageFactory';
+import { connect } from '@/services/store';
+import { router } from '@/shared/Router';
 import {
   displayCharsetValidator,
   emailDomainLettersValidator,
@@ -20,6 +21,7 @@ import {
 } from '@/shared/constants/formValidators';
 
 import { ProfilePageMain } from './ProfilePageMain';
+import { mapUserToProps } from './mapUserToProps';
 
 export const editProfileFormValidators: Record<string, Validator[]> = {
   email: [
@@ -68,36 +70,16 @@ export const PAGE_MODE = {
   },
 } as const;
 
+const ProfilePageMainConnected = connect(ProfilePageMain, mapUserToProps);
+
 export const profilePageConfig: BasePageConfig = {
+  authRequired: true,
   sidebarType: 'back',
   buttonBack: new Button({
     id: 'page-layout-button-back',
     variant: 'primary-icon',
     icon: 'back',
-    onClick: () => console.log('back'),
+    onClick: () => router.go(routes.chats),
   }),
-  content: new ProfilePageMain({
-    avatar: {
-      isEmpty: false,
-      isEditable: false,
-      src: AvatarAlex,
-      alt: 'Личность профиля',
-      name: 'Александр',
-      type: 'column',
-      size: 'l',
-    },
-    info: {
-      id: '1',
-      avatar: AvatarAlex,
-      email: 'username@yandex.ru',
-      login: 'username',
-      first_name: 'Александр',
-      second_name: 'Пушкин',
-      display_name: 'pushkin',
-      phone: '+70906061799',
-    },
-  }),
-  footer: {
-    links: appFooterTemplateLinks,
-  },
+  content: () => new ProfilePageMainConnected({}),
 };

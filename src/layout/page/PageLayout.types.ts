@@ -1,5 +1,4 @@
 import type { Button } from '@/components/button';
-import { AppFooter } from '@/modules/appFooter';
 import type { Block, Props as BlockProps } from '@/shared/Block';
 
 export type PageLayoutProps = BlockProps & {
@@ -7,5 +6,4 @@ export type PageLayoutProps = BlockProps & {
   sidebar?: Block;
   sidebarType?: 'back';
   buttonBack?: Button;
-  appFooter?: AppFooter;
 };

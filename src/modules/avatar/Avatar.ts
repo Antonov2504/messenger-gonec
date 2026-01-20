@@ -10,6 +10,11 @@ export class Avatar extends Block<AvatarBlockProps> {
     super({
       ...props,
       image: new Image({ src, alt }),
+      events: {
+        click: (e: MouseEvent) => {
+          props.onClick?.(e);
+        },
+      },
     });
   }
 

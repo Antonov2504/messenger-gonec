@@ -1,0 +1,32 @@
+import { publicRoutes, routes } from '@/App.constants';
+import { ToastService } from '@/services/toast';
+import { router } from '@/shared/Router';
+
+import { ApiError } from './ApiError';
+
+export class ErrorHandler {
+  static handle(error: unknown) {
+    let message = 'Неизвестная ошибка';
+
+    if (error instanceof ApiError) {
+      message = error.reason;
+
+      if (
+        error.status === 401 &&
+        !publicRoutes.includes(
+          window.location.pathname as (typeof publicRoutes)[number]
+        )
+      ) {
+        router.go(routes.login);
+      }
+
+      if (error.status === 500) {
+        message = 'Идентификационная ошибка сервера';
+        router.go(routes.maintenance);
+      }
+    }
+
+    ToastService.error(message);
+    console.error('[ErrorHandler]', error);
+  }
+}
