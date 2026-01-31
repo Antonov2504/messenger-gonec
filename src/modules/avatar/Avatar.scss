@@ -11,7 +11,8 @@
     align-items: center;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 1000px;
+    background-color: var(--border-color);
     overflow: hidden;
     position: relative;
     cursor: default;
@@ -22,6 +23,11 @@
     font-weight: 600;
     font-size: 16px;
     line-height: 1;
+  }
+
+  &_size_s .avatar__image {
+    width: 30px;
+    height: 30px;
   }
 
   &_size_m .avatar__image {

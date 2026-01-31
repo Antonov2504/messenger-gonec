@@ -16,13 +16,40 @@
 
   &__feed {
     flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: calc(100vh - 133px);
     margin: 0 20px;
     color: var(--placeholder-color);
     font-size: 12px;
     line-height: 1;
+    overflow: auto;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 6px;
+    }
+
+    &:hover {
+      scrollbar-color: var(--bg-message-active) transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: var(--primary-color);
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
   }
 
   &__message-control {

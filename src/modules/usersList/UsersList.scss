@@ -1,0 +1,20 @@
+.users-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  &__title {
+    align-self: center;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 8px;
+    max-height: 300px;
+    overflow: auto;
+  }
+}

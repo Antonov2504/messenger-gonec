@@ -1,0 +1,27 @@
+.popup {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(0 0 0 / 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: 0.3s ease-in-out;
+  transition-property: visibility, opacity;
+
+  &_opened {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: initial;
+  }
+
+  &__content {
+    background: var(--text-color-white);
+    width: 340px;
+    padding: 24px;
+    border-radius: 12px;
+  }
+}

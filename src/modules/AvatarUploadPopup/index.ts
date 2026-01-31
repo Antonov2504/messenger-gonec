@@ -1,0 +1,1 @@
+export { AvatarUploadPopup } from './AvatarUploadPopup';

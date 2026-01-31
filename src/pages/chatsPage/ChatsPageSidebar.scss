@@ -7,11 +7,18 @@
     gap: 14px;
     width: 24vw;
     max-width: 465px;
+    min-width: 290px;
     padding-top: 20px;
 
     &::-webkit-scrollbar {
       width: 8px;
       height: 8px;
+    }
+
+    #add-chat-button {
+      align-self: flex-start;
+      margin: 0 15px;
+      max-width: 300px;
     }
   }
 
@@ -29,5 +36,15 @@
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  &__chats-stub {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 15px;
+    color: var(--placeholder-color);
+    font-size: 12px;
+    line-height: 1;
   }
 }

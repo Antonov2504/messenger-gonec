@@ -1,8 +1,10 @@
-import { appFooterTemplateLinks } from '@/App.constants';
+import { routes } from '@/App.constants';
 import { Link } from '@/components/link';
 import { Form } from '@/modules/form';
 import type { Validator } from '@/modules/formController';
 import type { BasePageConfig } from '@/pages/PageFactory';
+import { UserRegisterController } from '@/pages/authPage/controllers/UserRegister';
+import type { RegisterFormModel } from '@/pages/authPage/models/RegisterFormModel';
 import {
   emailDomainLettersValidator,
   emailFormatValidator,
@@ -45,9 +47,16 @@ export const registerFormValidators: Record<string, Validator[]> = {
 };
 
 export const registerPageConfig: BasePageConfig = {
-  content: new AuthPageMain({
-    title: 'Регистрация',
-    form: new Form({
+  authRequired: false,
+  content: () => {
+    const registerController = new UserRegisterController(
+      (isLoading) => {
+        registerForm.setLoading(isLoading);
+      },
+      () => registerForm.reset()
+    );
+
+    const registerForm = new Form({
       id: 'register-form',
       fields: [
         {
@@ -106,15 +115,18 @@ export const registerPageConfig: BasePageConfig = {
         type: 'submit',
         fullWidth: true,
       },
-      onSubmit: (values) => console.log(values),
-    }),
-    link: new Link({
-      text: 'Войти',
-      to: 'login',
-      className: 'link',
-    }),
-  }),
-  footer: {
-    links: appFooterTemplateLinks,
+      onSubmit: (values) =>
+        registerController.register(values as RegisterFormModel),
+    });
+
+    return new AuthPageMain({
+      title: 'Регистрация',
+      form: registerForm,
+      link: new Link({
+        text: 'Войти',
+        to: routes.login,
+        className: 'link',
+      }),
+    });
   },
 };

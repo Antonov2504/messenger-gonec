@@ -1,0 +1,17 @@
+.form-add-user {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+  color: var(--placeholder-color);
+  font-size: 12px;
+  line-height: 1;
+}

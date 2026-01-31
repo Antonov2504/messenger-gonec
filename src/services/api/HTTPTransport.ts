@@ -1,6 +1,10 @@
+import { ApiError } from './ApiError';
+
 type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 type MethodOptions = {
+  headers?: Record<string, string>;
+  data?: RequestData;
   timeout?: number;
 };
 
@@ -10,12 +14,14 @@ export type RequestOptions = {
   method: HTTPMethod;
   headers?: Record<string, string>;
   data?: RequestData;
+  withCredentials?: boolean;
+  responseType?: XMLHttpRequestResponseType;
 };
 
-type HTTPRequestMethod = (
+type HTTPRequestMethod = <T = XMLHttpRequest>(
   url: string,
   options?: MethodOptions
-) => Promise<XMLHttpRequest>;
+) => Promise<T>;
 
 const METHODS: Record<HTTPMethod, HTTPMethod> = {
   GET: 'GET',
@@ -25,6 +31,10 @@ const METHODS: Record<HTTPMethod, HTTPMethod> = {
 };
 
 const queryStringify = (data?: Record<string, unknown>) => {
+  if (!data) {
+    return '';
+  }
+
   if (typeof data !== 'object') {
     throw new Error('data must be an object!');
   }
@@ -73,10 +83,20 @@ export class HTTPTransport {
     );
   };
 
-  request = (url: string, options: RequestOptions, timeout = 5000) => {
-    const { method, headers = {}, data } = options;
+  private request = <T = XMLHttpRequest>(
+    url: string,
+    options: RequestOptions,
+    timeout = 5000
+  ): Promise<T> => {
+    const {
+      method,
+      headers = {},
+      data,
+      withCredentials = true,
+      responseType = 'json',
+    } = options;
 
-    return new Promise<XMLHttpRequest>((res, rej) => {
+    return new Promise<T>((res, rej) => {
       if (!method) {
         rej('Не указан метод запроса');
         return;
@@ -95,26 +115,46 @@ export class HTTPTransport {
         xhr.setRequestHeader(key, value)
       );
 
+      xhr.withCredentials = withCredentials;
+      xhr.responseType = responseType;
+      xhr.timeout = timeout;
+
       xhr.onload = () => {
-        res(xhr);
+        const status = xhr.status;
+
+        if (status >= 200 && status < 300) {
+          res(xhr.response as T);
+        } else {
+          const reason = this.parseError(xhr);
+          rej(new ApiError(status, reason));
+        }
       };
 
-      xhr.onerror = rej;
-      xhr.onabort = rej;
-
-      xhr.timeout = timeout;
-      xhr.ontimeout = rej;
+      xhr.onerror = () => rej(new ApiError(0, 'Network error'));
+      xhr.onabort = () => rej(new ApiError(0, 'Request aborted'));
+      xhr.ontimeout = () => rej(new ApiError(0, 'Request timeout'));
 
       if (isGet || !data) {
         xhr.send();
+      } else if (data instanceof FormData || typeof data === 'string') {
+        xhr.send(data);
       } else {
-        if (data instanceof FormData || typeof data === 'string') {
-          xhr.send(data);
-        } else {
-          xhr.setRequestHeader('Content-Type', 'application/json');
-          xhr.send(JSON.stringify(data));
-        }
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(data));
       }
     });
   };
+
+  private parseError(xhr: XMLHttpRequest): string {
+    try {
+      if (xhr.response && typeof xhr.response === 'object') {
+        return (xhr.response as ApiError).reason || 'Ошибка сервера';
+      }
+
+      const data = JSON.parse(xhr.responseText);
+      return data.reason || 'Ошибка сервера';
+    } catch {
+      return 'Ошибка сервера';
+    }
+  }
 }

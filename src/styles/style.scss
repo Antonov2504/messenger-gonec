@@ -7,9 +7,13 @@
   --text-color-white: #ffffff;
   --placeholder-color: #999999;
   --error-color: #ff2f2f;
+  --success-color: #2ecc71;
   --hover-error-color: #ff6060;
   --bg-color: #fbfbfb;
   --bg-color-100: #efefef;
+  --bg-color-200: #dfdfdf;
+  --bg-message: #fefdff;
+  --bg-message-active: #f3f6fe;
 }
 
 body {
@@ -18,6 +22,7 @@ body {
   font-weight: 500;
   color: var(--text-color);
   margin: 0 auto;
+  overflow: hidden;
 }
 
 #app {

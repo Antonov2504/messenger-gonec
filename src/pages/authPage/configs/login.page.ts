@@ -1,8 +1,10 @@
-import { appFooterTemplateLinks } from '@/App.constants';
+import { routes } from '@/App.constants';
 import { Link } from '@/components/link';
 import { Form } from '@/modules/form';
 import type { Validator } from '@/modules/formController';
 import type { BasePageConfig } from '@/pages/PageFactory';
+import { UserLoginController } from '@/pages/authPage/controllers/UserLogin';
+import type { LoginFormModel } from '@/pages/authPage/models/LoginFormModel';
 import { requiredValidator } from '@/shared/constants/formValidators';
 
 import { AuthPageMain } from '../AuthPageMain';
@@ -13,9 +15,16 @@ export const loginFormValidators: Record<string, Validator[]> = {
 };
 
 export const loginPageConfig: BasePageConfig = {
-  content: new AuthPageMain({
-    title: 'Вход',
-    form: new Form({
+  authRequired: false,
+  content: () => {
+    const loginController = new UserLoginController(
+      (isLoading) => {
+        loginForm.setLoading(isLoading);
+      },
+      () => loginForm.reset()
+    );
+
+    const loginForm = new Form({
       id: 'login-form',
       fields: [
         {
@@ -40,15 +49,17 @@ export const loginPageConfig: BasePageConfig = {
         type: 'submit',
         fullWidth: true,
       },
-      onSubmit: (values) => console.log({ values }),
-    }),
-    link: new Link({
-      text: 'Еще не зарегистрированы?',
-      to: 'signup',
-      className: 'link',
-    }),
-  }),
-  footer: {
-    links: appFooterTemplateLinks,
+      onSubmit: (values) => loginController.login(values as LoginFormModel),
+    });
+
+    return new AuthPageMain({
+      title: 'Вход',
+      form: loginForm,
+      link: new Link({
+        text: 'Еще не зарегистрированы?',
+        to: routes.signup,
+        className: 'link',
+      }),
+    });
   },
 };

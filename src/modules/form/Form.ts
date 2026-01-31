@@ -13,6 +13,7 @@ export class Form extends Block<FormBlockProps> {
 
   constructor({
     id,
+    title,
     fields,
     submitButton,
     cancelButton,
@@ -22,6 +23,7 @@ export class Form extends Block<FormBlockProps> {
   }: FormProps) {
     super({
       id,
+      title,
       fields: fields.map(
         (field) =>
           new Field({
@@ -170,11 +172,34 @@ export class Form extends Block<FormBlockProps> {
     button.setProps({ disabled: !this._isValid });
   }
 
+  public setLoading(isLoading: boolean) {
+    const button = this.children.submitButton as Button;
+
+    button.setProps({
+      loading: isLoading,
+      disabled: isLoading || !this._isValid,
+    });
+  }
+
   protected render(): string {
-    const { id } = this.props;
+    const { id, title } = this.props;
+
+    const renderTitle = () => {
+      if (title) {
+        return `
+          <h2 class="form__title">
+            ${title}
+          </h2>
+        `;
+      }
+
+      return '';
+    };
 
     return `
       <form id="${id}" action="#" class="form" autocomplete="off">
+        ${renderTitle()}
+      
         <fieldset class="form__fieldset">
           {{{fields}}}
         </fieldset>
