@@ -6,11 +6,6 @@
   "engines": {
     "node": ">=24.0.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "scripts": {
     "dev": "vite",
     "start": "vite build && node server.mjs",
@@ -34,6 +29,10 @@
       "stylelint --fix",
       "prettier --write"
     ]
+  },
+  "overrides": {
+    "qs": "^6.14.1",
+    "lodash-es": "^4.17.23"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
