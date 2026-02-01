@@ -3,7 +3,6 @@ import type { RoutePath } from '@/App.types';
 import '@/tests/helpers/mockBlock';
 import { resetRouterSingleton } from '@/tests/helpers/resetRouterSingleton';
 import { TestBlock } from '@/tests/mocks/TestBlock';
-import { beforeEach, describe, expect, jest, test } from '@jest/globals';
 
 import { Router } from './Router';
 

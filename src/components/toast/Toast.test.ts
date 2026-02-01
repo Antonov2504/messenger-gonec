@@ -1,5 +1,3 @@
-import { describe, expect, test } from '@jest/globals';
-
 import { Toast } from './Toast';
 
 describe('Toast component', () => {
