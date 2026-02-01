@@ -1,2 +1,19 @@
-echo "🚀 pre-commit hook is running"
-npx lint-staged
+echo "🚀 Pre-commit hook started"
+
+# --- 1. Lint & Prettier ---
+echo "📝 Running lint-staged..."
+if ! npx lint-staged --allow-empty; then
+  echo "❌ Lint or Prettier failed. Commit aborted."
+  exit 1
+fi
+echo "✅ Lint & Prettier passed!"
+
+# --- 2. Run Tests ---
+echo "🧪 Running tests..."
+if ! npm test -- --passWithNoTests; then
+  echo "❌ Tests failed. Commit aborted."
+  exit 1
+fi
+echo "✅ All tests passed!"
+
+echo "🎉 Pre-commit hook finished successfully!"

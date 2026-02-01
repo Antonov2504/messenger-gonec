@@ -6,11 +6,6 @@
   "engines": {
     "node": ">=24.0.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "scripts": {
     "dev": "vite",
     "start": "vite build && node server.mjs",
@@ -22,8 +17,10 @@
     "stylelint": "stylelint \"src/**/*.{css,scss}\"",
     "stylelint:fix": "stylelint \"src/**/*.{css,scss}\" --fix",
     "prettier": "prettier --write .",
-    "precommit": "lint-staged --allow-empty",
-    "prepare": "husky"
+    "precommit": "echo 'Run husky pre-commit'",
+    "prepare": "husky",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
@@ -35,16 +32,23 @@
       "prettier --write"
     ]
   },
+  "overrides": {
+    "qs": "^6.14.1",
+    "lodash-es": "^4.17.23"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "@types/express": "^5.0.5",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.10.1",
     "autoprefixer": "^10.4.22",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "husky": "^9.1.7",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
     "lint-staged": "^16.2.7",
     "postcss": "^8.5.6",
     "postcss-preset-env": "^10.4.0",
@@ -54,6 +58,7 @@
     "stylelint-config-recommended-scss": "^16.0.2",
     "stylelint-config-standard": "^39.0.1",
     "stylelint-scss": "^6.13.0",
+    "ts-jest": "^29.4.6",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
     "vite": "^7.2.4"

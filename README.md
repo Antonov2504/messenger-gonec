@@ -6,6 +6,7 @@
 - Figma
 - Технологии
 - Установка
+- Тестирование
 - Cсылки на все свёрстанные страницы
 
 **Интро**
@@ -33,6 +34,8 @@
 - **Router**
 - **WebSocket**
 - **XMLHttpRequest**
+- **JEST**
+- **Husky precommit**
 
 **Установка**
 
@@ -47,6 +50,13 @@
 ```html
 $ git clone https://github.com/Antonov2504/messenger-gonec.git
 ```
+
+**Тестирование**
+
+Запустить тесты можно командой npm run test.
+
+- `npm run test` — запуск всех тесотв проекта,
+- `npm run test Toast.test.ts` — запуск теста компонента Toast.
 
 **Cсылки на все свёрстанные страницы**
 
